@@ -2,13 +2,16 @@ import {Tile, TileType} from "../tile/Tile";
 import {Text, TextStyle} from "pixi.js";
 
 export class Card extends Tile {
-    constructor(type: TileType) {
+    constructor(type: TileType, isInverse = false) {
         super(type);
+        if(isInverse) {
+            this.rotation = Math.PI;
+        }
     }
 
     protected addValue(type: TileType) {
         const style = new TextStyle({
-            fontSize: 36
+            fontSize: 30
         });
         const textTop = new Text({ text: '3' , style});
 
