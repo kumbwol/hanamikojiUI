@@ -4,7 +4,7 @@ import {Card} from "../card/Card";
 import {TileType} from "../tile/Tile";
 
 export class OfferingFour extends Container {
-    constructor() {
+    constructor(offering: number[]) {
         super();
         this.createBackground();
         this.position.set(1280, 0);

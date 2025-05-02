@@ -8,6 +8,8 @@ export class Data {
     numOfCards: NumOfCards;
     maxId: number;
     playerInformations: PlayerInformations;
+    offering3: number[];
+    offering4: number[];
 
     constructor(stepId: number) {
         console.log(PlayedGame);
@@ -19,6 +21,8 @@ export class Data {
         this.parseActiveCards(playedGame.state.gift_cards);
         this.numOfCards = playedGame.state.num_cards;
         this.parsePlayerInformations(playedGame.private_info_sets.first, playedGame.private_info_sets.second);
+        this.offering3 = playedGame.state.decision_cards_1_2;
+        this.offering4 = playedGame.state.decision_cards_2_2;
     }
 
     private parsePlayerInformations(firstPlayerData: PlayerInfo, secondPlayerData: PlayerInfo) {

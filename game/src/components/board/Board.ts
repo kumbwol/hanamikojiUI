@@ -9,13 +9,17 @@ export class Board extends Container {
     constructor(data: Data) {
         super();
         this.createTiles(data);
-        this.createOffering();
+        this.createOffering(data.offering3, data.offering4);
         this.position.set(80, 360);
         this.scale.set(0.8);
     }
 
-    private createOffering() {
-        this.addChild(new OfferingFour());
+    private createOffering(offering3: number[], offering4: number[]) {
+        if(offering3) {
+            this.addChild(new OfferingThree(offering3));
+        } else if(offering4) {
+            this.addChild(new OfferingFour(offering4));
+        }
     }
 
     private createTiles(data: Data) {
