@@ -63,12 +63,12 @@ export class Tile extends Container {
                 break;
         }
 
-        textTop.position.set(-50, -70);
+        textTop.position.set(-55, -70);
         textTop.anchor.set(0.5);
         this.addChild(textTop);
 
         textBot.text = textTop.text;
-        textBot.position.set(50, 70);
+        textBot.position.set(55, 70);
         textBot.anchor.set(0.5);
         textBot.rotation = Math.PI;
         this.addChild(textBot);

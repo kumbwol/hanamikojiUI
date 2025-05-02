@@ -3,6 +3,7 @@ import {Resize} from "./Resize";
 import {GameLoader} from "./loader/GameLoader";
 import {Background} from "./components/background/Background";
 import {Board} from "./components/board/Board";
+import {Data} from "./data/Data";
 
 export class Main {
     private loader: GameLoader;
@@ -29,8 +30,11 @@ export class Main {
         await this.loader.loadImages();
 
 
+        const data = new Data();
+
+
         app.stage.addChild(new Background());
-        app.stage.addChild(new Board());
+        app.stage.addChild(new Board(data));
         app.stage.interactive = true;
     }
 }

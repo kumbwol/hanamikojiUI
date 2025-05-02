@@ -1,20 +1,21 @@
 import {Container} from "pixi.js";
-import {MarkerPosition, Tile, TileType} from "../tile/Tile";
+import {Tile, TileType} from "../tile/Tile";
 import {Card} from "../card/Card";
+import {BoardState, Data} from "../../data/Data";
 
 export class Board extends Container {
-    constructor() {
+    constructor(data: Data) {
         super();
-        this.createTiles();
+        this.createTiles(data);
         this.position.set(140, 360);
         this.scale.set(0.8);
     }
 
-    private createTiles() {
+    private createTiles(data: Data) {
         for(let i=0; i<Object.keys(TileType).length / 2; i++) {
             const numberOfCards = Math.floor(Math.random() * 5) + 1;
             const offsetTileX = 15;
-            const tile = new Tile(i, Math.floor(Math.random() * 3));
+            const tile = new Tile(i, data.markerPos[i]);
             tile.x = i * (tile.width + offsetTileX);
             this.addChild(tile);
             this.createCards(i, tile.width, offsetTileX, numberOfCards);
