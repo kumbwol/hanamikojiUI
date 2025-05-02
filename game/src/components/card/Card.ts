@@ -1,25 +1,16 @@
-import {Container, Sprite, Text, TextStyle} from "pixi.js";
-import {GameLoader} from "../../loader/GameLoader";
+import {Tile, TileType} from "../tile/Tile";
+import {Text, TextStyle} from "pixi.js";
 
-export class Tile extends Container {
+export class Card extends Tile {
     constructor(type: TileType) {
-        super();
-        this.createBackground(type);
-        this.addValue(type);
-    }
-
-    protected createBackground(type: TileType) {
-        const tile = new Sprite(GameLoader.TEXTURES.get(this.getSprite(type)));
-        tile.anchor.set(0.5);
-        this.addChild(tile);
+        super(type);
     }
 
     protected addValue(type: TileType) {
         const style = new TextStyle({
-            fontSize: 44
+            fontSize: 36
         });
         const textTop = new Text({ text: '3' , style});
-        const textBot = new Text({ text: '3' , style});
 
         switch (type) {
             case TileType.YELLOW:
@@ -54,40 +45,24 @@ export class Tile extends Container {
         textTop.position.set(-50, -70);
         textTop.anchor.set(0.5);
         this.addChild(textTop);
-
-        textBot.text = textTop.text;
-        textBot.position.set(50, 70);
-        textBot.anchor.set(0.5);
-        textBot.rotation = Math.PI;
-        this.addChild(textBot);
     }
 
     protected getSprite(type: TileType): string {
         switch (type) {
             case TileType.YELLOW:
-                return "tileYellow";
+                return "cardYellow";
             case TileType.RED:
-                return "tileRed";
+                return "cardRed";
             case TileType.PURPLE:
-                return "tilePurple";
+                return "cardPurple";
             case TileType.ORANGE:
-                return "tileOrange";
+                return "cardOrange";
             case TileType.BLUE:
-                return "tileBlue";
+                return "cardBlue";
             case TileType.GREEN:
-                return "tileGreen";
+                return "cardGreen";
             case TileType.PINK:
-                return "tilePink";
+                return "cardPink";
         }
     }
-}
-
-export enum TileType {
-    YELLOW,
-    RED,
-    PURPLE,
-    ORANGE,
-    BLUE,
-    GREEN,
-    PINK
 }
