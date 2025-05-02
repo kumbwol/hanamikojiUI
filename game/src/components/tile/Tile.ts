@@ -101,7 +101,8 @@ export enum TileType {
     ORANGE,
     BLUE,
     GREEN,
-    PINK
+    PINK,
+    BACK
 }
 
 export enum MarkerPosition {

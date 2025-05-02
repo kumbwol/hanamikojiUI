@@ -4,6 +4,7 @@ import {GameLoader} from "./loader/GameLoader";
 import {Background} from "./components/background/Background";
 import {Board} from "./components/board/Board";
 import {Data} from "./data/Data";
+import {Player} from "./components/player/Player";
 
 export class Main {
     private loader: GameLoader;
@@ -35,6 +36,10 @@ export class Main {
 
         app.stage.addChild(new Background());
         app.stage.addChild(new Board(data));
+        const topPlayer = new Player();
+        const botPlayer = new Player(false);
+        app.stage.addChild(topPlayer);
+        app.stage.addChild(botPlayer);
         app.stage.interactive = true;
     }
 }

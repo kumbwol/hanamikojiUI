@@ -12,6 +12,9 @@ export class Card extends Tile {
     protected addMarker() {}
 
     protected addValue(type: TileType) {
+        if(type === TileType.BACK) {
+            return;
+        }
         const style = new TextStyle({
             fontSize: 30
         });
@@ -68,6 +71,8 @@ export class Card extends Tile {
                 return "cardGreen";
             case TileType.PINK:
                 return "cardPink";
+            case TileType.BACK:
+                return "cardBack";
         }
     }
 }
