@@ -44,21 +44,35 @@ export class Data {
         }
         this.playerInformations.first.handCards = [1,1,1,1,1,1,1];
         this.playerInformations.first.trashedCards = [];
-        this.playerInformations.first.stashedCard = 0;
+        this.playerInformations.first.stashedCard = -1;
 
         this.playerInformations.second.handCards = [1,1,1,1,1,1,1];
         this.playerInformations.second.trashedCards = [];
-        this.playerInformations.second.stashedCard = 0;
+        this.playerInformations.second.stashedCard = -1;
 
         // @ts-ignore
         this.playerInformations.first.handCards = firstPlayerData.hand_cards; // @ts-ignore
         this.playerInformations.first.trashedCards = firstPlayerData.trashed_cards ? firstPlayerData.trashed_cards : []; // @ts-ignore
-        this.playerInformations.first.stashedCard = firstPlayerData.stashed_card;
+        let stashCards = firstPlayerData.stashed_card;
+        if(stashCards) {
+            for(let i=0; i<stashCards.length; i++) {
+                if(stashCards[i] === 1) {
+                    this.playerInformations.first.stashedCard = i;
+                }
+            }
+        }
 
         // @ts-ignore
         this.playerInformations.second.handCards = secondPlayerData.hand_cards; // @ts-ignore
         this.playerInformations.second.trashedCards = secondPlayerData.trashed_cards ? secondPlayerData.trashed_cards : []; // @ts-ignore
-        this.playerInformations.second.stashedCard = secondPlayerData.stashed_card;
+        stashCards = secondPlayerData.stashed_card;
+        if(stashCards) {
+            for(let i=0; i<stashCards.length; i++) {
+                if(stashCards[i] === 1) {
+                    this.playerInformations.second.stashedCard = i;
+                }
+            }
+        }
     }
 
     private parseActiveCards(activeCards: ActiveCards) {
