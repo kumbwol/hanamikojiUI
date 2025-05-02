@@ -2,10 +2,22 @@ import {Container, Sprite, Text, TextStyle} from "pixi.js";
 import {GameLoader} from "../../loader/GameLoader";
 
 export class Tile extends Container {
-    constructor(type: TileType) {
+    constructor(type: TileType, markerPos: MarkerPosition) {
         super();
         this.createBackground(type);
         this.addValue(type);
+        this.addMarker(markerPos);
+    }
+
+    protected addMarker(markerPos: MarkerPosition) {
+        const marker = new Sprite(GameLoader.TEXTURES.get("tileMarker"));
+        marker.anchor.set(0.5);
+        if(markerPos === MarkerPosition.TOP) {
+            marker.position.set(0, -50);
+        } else if(markerPos === MarkerPosition.BOT) {
+            marker.position.set(0, 50);
+        }
+        this.addChild(marker);
     }
 
     protected createBackground(type: TileType) {
@@ -90,4 +102,10 @@ export enum TileType {
     BLUE,
     GREEN,
     PINK
+}
+
+export enum MarkerPosition {
+    TOP,
+    MID,
+    BOT
 }

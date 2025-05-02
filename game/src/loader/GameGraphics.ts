@@ -8,6 +8,7 @@ export class GameGraphics {
 
     constructor() {
         const dir = "./game/assets/gfx/";
+        this.assets.push({name: "tileMarker", src: dir + "tiles/marker.png"});
         this.assets.push({name: "tileYellow", src: dir + "tiles/tileYellow.png"});
         this.assets.push({name: "tileRed", src: dir + "tiles/tileRed.png"});
         this.assets.push({name: "tilePurple", src: dir + "tiles/tilePurple.png"});

@@ -1,13 +1,15 @@
-import {Tile, TileType} from "../tile/Tile";
+import {MarkerPosition, Tile, TileType} from "../tile/Tile";
 import {Text, TextStyle} from "pixi.js";
 
 export class Card extends Tile {
     constructor(type: TileType, isInverse = false) {
-        super(type);
+        super(type, MarkerPosition.MID);
         if(isInverse) {
             this.rotation = Math.PI;
         }
     }
+
+    protected addMarker() {}
 
     protected addValue(type: TileType) {
         const style = new TextStyle({
