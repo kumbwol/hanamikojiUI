@@ -5,14 +5,16 @@ import * as PlayedGame from "../../games/game1.json";
 export class Data {
     markerPos: MarkerPosition[] = [];
     activeCards: ActiveCards;
+    numOfCards: NumOfCards;
 
     constructor() {
         console.log(PlayedGame);
-        const playedGame = PlayedGame[4];
+        const playedGame = PlayedGame[2];
         console.log(playedGame);
 
         this.parseMarkers(playedGame.state.geisha_preferences);
         this.parseActiveCards(playedGame.state.gift_cards);
+        this.numOfCards = playedGame.state.num_cards;
     }
 
     private parseActiveCards(activeCards: ActiveCards) {
@@ -51,4 +53,9 @@ export interface GeishaPreferences {
 export interface ActiveCards {
     first: number[];
     second: number[];
+}
+
+export interface NumOfCards {
+    first: number;
+    second: number;
 }
