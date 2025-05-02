@@ -1,33 +1,44 @@
 import {Container, Sprite} from "pixi.js";
 import {GameLoader} from "../../loader/GameLoader";
 import {Card} from "../card/Card";
-import {TileType} from "../tile/Tile";
+import {FourWayOffering} from "../../data/Data";
 
 export class OfferingFour extends Container {
-    constructor(offering: number[]) {
+    constructor(offering: FourWayOffering) {
         super();
         this.createBackground();
         this.position.set(1280, 0);
-
-        const c1 = new Card(TileType.GREEN);
-        const c2 = new Card(TileType.PINK);
-        const c3 = new Card(TileType.GREEN);
-        const c4 = new Card(TileType.PINK);
-
-        c1.position.set(-120, 0);
-        c2.position.set(-80, 0);
-        c3.position.set(80, 0);
-        c4.position.set(120, 0);
-
-        this.addChild(c1);
-        this.addChild(c2);
-        this.addChild(c3);
-        this.addChild(c4);
+        this.createOffering(offering);
     }
 
     private createBackground() {
         const bg = new Sprite(GameLoader.TEXTURES.get("offeringBackground"));
         bg.anchor.set(0.5);
         this.addChild(bg);
+    }
+
+    private createOffering(offering: FourWayOffering) {
+        const offsetSmallX = 40;
+        const offsetLeftX = -120;
+        let numOfCards = 0;
+        for(let i=0; i<offering.first.length; i++) {
+            for(let j=0; j<offering.first[i]; j++) {
+                const card = new Card(i);
+                card.position.set(offsetLeftX + numOfCards * offsetSmallX, 0);
+                this.addChild(card);
+                numOfCards++;
+            }
+        }
+
+        const offsetRightX = 80;
+        numOfCards = 0;
+        for(let i=0; i<offering.second.length; i++) {
+            for(let j=0; j<offering.second[i]; j++) {
+                const card = new Card(i);
+                card.position.set(offsetRightX + numOfCards * offsetSmallX, 0);
+                this.addChild(card);
+                numOfCards++;
+            }
+        }
     }
 }

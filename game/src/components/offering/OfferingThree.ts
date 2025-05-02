@@ -1,14 +1,12 @@
 import {Container, Sprite} from "pixi.js";
 import {GameLoader} from "../../loader/GameLoader";
 import {Card} from "../card/Card";
-import {TileType} from "../tile/Tile";
 
 export class OfferingThree extends Container {
     constructor(offering: number[]) {
         super();
         this.createBackground();
         this.position.set(1280, 0);
-
         this.createOffering(offering);
     }
 

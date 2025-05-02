@@ -1,7 +1,7 @@
 import {Container} from "pixi.js";
 import {Tile} from "../tile/Tile";
 import {Card} from "../card/Card";
-import {Data} from "../../data/Data";
+import {Data, FourWayOffering} from "../../data/Data";
 import {OfferingThree} from "../offering/OfferingThree";
 import {OfferingFour} from "../offering/OfferingFour";
 
@@ -14,10 +14,10 @@ export class Board extends Container {
         this.scale.set(0.8);
     }
 
-    private createOffering(offering3: number[], offering4: number[]) {
+    private createOffering(offering3: number[], offering4: FourWayOffering) {
         if(offering3) {
             this.addChild(new OfferingThree(offering3));
-        } else if(offering4) {
+        } else if(offering4.first.length > 0) {
             this.addChild(new OfferingFour(offering4));
         }
     }

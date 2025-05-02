@@ -9,7 +9,10 @@ export class Data {
     maxId: number;
     playerInformations: PlayerInformations;
     offering3: number[];
-    offering4: number[];
+    offering4: FourWayOffering = {
+        first: [],
+        second: []
+    };
 
     constructor(stepId: number) {
         console.log(PlayedGame);
@@ -22,7 +25,8 @@ export class Data {
         this.numOfCards = playedGame.state.num_cards;
         this.parsePlayerInformations(playedGame.private_info_sets.first, playedGame.private_info_sets.second);
         this.offering3 = playedGame.state.decision_cards_1_2;
-        this.offering4 = playedGame.state.decision_cards_2_2;
+        this.offering4.first = playedGame.state.decision_cards_2_2 ? playedGame.state.decision_cards_2_2[0] : [];
+        this.offering4.second = playedGame.state.decision_cards_2_2 ? playedGame.state.decision_cards_2_2[1] : [];
     }
 
     private parsePlayerInformations(firstPlayerData: PlayerInfo, secondPlayerData: PlayerInfo) {
@@ -103,6 +107,11 @@ export interface NumOfCards {
 export interface PlayerInformations {
     first: PlayerInfo;
     second: PlayerInfo;
+}
+
+export interface FourWayOffering {
+    first: number[];
+    second: number[];
 }
 
 export interface PlayerInfo {
