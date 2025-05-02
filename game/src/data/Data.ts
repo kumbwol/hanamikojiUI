@@ -44,12 +44,12 @@ export class Data {
 
         // @ts-ignore
         this.playerInformations.first.handCards = firstPlayerData.hand_cards; // @ts-ignore
-        this.playerInformations.first.trashedCards = firstPlayerData.trashed_cards; // @ts-ignore
+        this.playerInformations.first.trashedCards = firstPlayerData.trashed_cards ? firstPlayerData.trashed_cards : []; // @ts-ignore
         this.playerInformations.first.stashedCard = firstPlayerData.stashed_card;
 
         // @ts-ignore
         this.playerInformations.second.handCards = secondPlayerData.hand_cards; // @ts-ignore
-        this.playerInformations.second.trashedCards = secondPlayerData.trashed_cards; // @ts-ignore
+        this.playerInformations.second.trashedCards = secondPlayerData.trashed_cards ? secondPlayerData.trashed_cards : []; // @ts-ignore
         this.playerInformations.second.stashedCard = secondPlayerData.stashed_card;
     }
 
