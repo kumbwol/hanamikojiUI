@@ -6,11 +6,13 @@ export class Data {
     markerPos: MarkerPosition[] = [];
     activeCards: ActiveCards;
     numOfCards: NumOfCards;
+    maxId: number;
 
     constructor(stepId: number) {
         console.log(PlayedGame);
         const playedGame = PlayedGame[stepId];
-        console.log(playedGame);
+        this.maxId = Object.values(PlayedGame).length;
+        console.log(playedGame, this.maxId);
 
         this.parseMarkers(playedGame.state.geisha_preferences);
         this.parseActiveCards(playedGame.state.gift_cards);

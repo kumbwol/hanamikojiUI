@@ -6,17 +6,22 @@ import {Player} from "../components/player/Player";
 
 export class Stepper {
     private stepId = 1;
+    private maxId: number;
 
     constructor(stage: Container) {
         window.addEventListener("keydown", (e) => {
             if(e.key === "ArrowLeft") {
-                this.stepId--;
-                this.createGameState(stage);
+                if(this.stepId > 1) {
+                    this.stepId--;
+                    this.createGameState(stage);
+                }
             }
 
             if(e.key === "ArrowRight") {
-                this.stepId++;
-                this.createGameState(stage);
+                if(this.stepId < this.maxId - 1) {
+                    this.stepId++;
+                    this.createGameState(stage);
+                }
             }
 
             if(e.key === "r") {
@@ -34,6 +39,7 @@ export class Stepper {
     private createGameState(stage: Container) {
         this.reset(stage);
         const data = new Data(this.stepId);
+        this.maxId = data.maxId;
         stage.addChild(new Background());
         stage.addChild(new Board(data));
         const topPlayer = new Player(data.numOfCards.first);
