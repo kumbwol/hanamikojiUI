@@ -1,6 +1,4 @@
 import {MarkerPosition} from "../components/tile/Tile";
-// @ts-ignore
-import * as PlayedGame from "../../games/game1.json";
 
 export class Data {
     markerPos: MarkerPosition[] = [];
@@ -14,10 +12,10 @@ export class Data {
         second: []
     };
 
-    constructor(stepId: number) {
-        console.log(PlayedGame);
-        const playedGame = PlayedGame[stepId];
-        this.maxId = Object.values(PlayedGame).length;
+    constructor(stepId: number, loadedData: any) {
+        console.log(loadedData);
+        const playedGame = loadedData[stepId];
+        this.maxId = Object.values(loadedData).length;
         console.log(playedGame, this.maxId);
 
         this.parseMarkers(playedGame.state.geisha_preferences);
