@@ -7,9 +7,9 @@ export class Data {
     activeCards: ActiveCards;
     numOfCards: NumOfCards;
 
-    constructor() {
+    constructor(stepId: number) {
         console.log(PlayedGame);
-        const playedGame = PlayedGame[2];
+        const playedGame = PlayedGame[stepId];
         console.log(playedGame);
 
         this.parseMarkers(playedGame.state.geisha_preferences);

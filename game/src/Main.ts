@@ -1,10 +1,11 @@
-import {Application} from "pixi.js";
+import {Application, Container} from "pixi.js";
 import {Resize} from "./Resize";
 import {GameLoader} from "./loader/GameLoader";
 import {Background} from "./components/background/Background";
 import {Board} from "./components/board/Board";
 import {Data} from "./data/Data";
 import {Player} from "./components/player/Player";
+import {Stepper} from "./logic/Stepper";
 
 export class Main {
     private loader: GameLoader;
@@ -31,16 +32,8 @@ export class Main {
         await this.loader.loadImages();
 
 
-        const data = new Data();
-
-
-        app.stage.addChild(new Background());
-        app.stage.addChild(new Board(data));
-        const topPlayer = new Player(data.numOfCards.first);
-        const botPlayer = new Player(data.numOfCards.second, false);
-        app.stage.addChild(topPlayer);
-        app.stage.addChild(botPlayer);
         app.stage.interactive = true;
+        new Stepper(app.stage);
     }
 }
 

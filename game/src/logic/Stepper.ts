@@ -1,0 +1,44 @@
+import {Container} from "pixi.js";
+import {Data} from "../data/Data";
+import {Background} from "../components/background/Background";
+import {Board} from "../components/board/Board";
+import {Player} from "../components/player/Player";
+
+export class Stepper {
+    private stepId = 1;
+
+    constructor(stage: Container) {
+        window.addEventListener("keydown", (e) => {
+            if(e.key === "ArrowLeft") {
+                this.stepId--;
+                this.createGameState(stage);
+            }
+
+            if(e.key === "ArrowRight") {
+                this.stepId++;
+                this.createGameState(stage);
+            }
+
+            if(e.key === "r") {
+                this.reset(stage);
+            }
+        });
+
+        this.createGameState(stage);
+    }
+
+    private reset(stage: Container) {
+        stage.removeChildren();
+    }
+
+    private createGameState(stage: Container) {
+        this.reset(stage);
+        const data = new Data(this.stepId);
+        stage.addChild(new Background());
+        stage.addChild(new Board(data));
+        const topPlayer = new Player(data.numOfCards.first);
+        const botPlayer = new Player(data.numOfCards.second, false);
+        stage.addChild(topPlayer);
+        stage.addChild(botPlayer);
+    }
+}
