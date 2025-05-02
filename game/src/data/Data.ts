@@ -7,6 +7,7 @@ export class Data {
     activeCards: ActiveCards;
     numOfCards: NumOfCards;
     maxId: number;
+    playerInformations: PlayerInformations;
 
     constructor(stepId: number) {
         console.log(PlayedGame);
@@ -17,6 +18,39 @@ export class Data {
         this.parseMarkers(playedGame.state.geisha_preferences);
         this.parseActiveCards(playedGame.state.gift_cards);
         this.numOfCards = playedGame.state.num_cards;
+        this.parsePlayerInformations(playedGame.private_info_sets.first, playedGame.private_info_sets.second);
+    }
+
+    private parsePlayerInformations(firstPlayerData: PlayerInfo, secondPlayerData: PlayerInfo) {
+        this.playerInformations = {
+            first: {
+                handCards: [],
+                trashedCards: [],
+                stashedCard: 0,
+            },
+            second: {
+                handCards: [],
+                trashedCards: [],
+                stashedCard: 0,
+            },
+        }
+        this.playerInformations.first.handCards = [1,1,1,1,1,1,1];
+        this.playerInformations.first.trashedCards = [];
+        this.playerInformations.first.stashedCard = 0;
+
+        this.playerInformations.second.handCards = [1,1,1,1,1,1,1];
+        this.playerInformations.second.trashedCards = [];
+        this.playerInformations.second.stashedCard = 0;
+
+        // @ts-ignore
+        this.playerInformations.first.handCards = firstPlayerData.hand_cards; // @ts-ignore
+        this.playerInformations.first.trashedCards = firstPlayerData.trashed_cards; // @ts-ignore
+        this.playerInformations.first.stashedCard = firstPlayerData.stashed_card;
+
+        // @ts-ignore
+        this.playerInformations.second.handCards = secondPlayerData.hand_cards; // @ts-ignore
+        this.playerInformations.second.trashedCards = secondPlayerData.trashed_cards; // @ts-ignore
+        this.playerInformations.second.stashedCard = secondPlayerData.stashed_card;
     }
 
     private parseActiveCards(activeCards: ActiveCards) {
@@ -60,4 +94,15 @@ export interface ActiveCards {
 export interface NumOfCards {
     first: number;
     second: number;
+}
+
+export interface PlayerInformations {
+    first: PlayerInfo;
+    second: PlayerInfo;
+}
+
+export interface PlayerInfo {
+    handCards: number[];
+    stashedCard: number;
+    trashedCards: number[];
 }

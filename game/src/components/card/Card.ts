@@ -50,7 +50,7 @@ export class Card extends Tile {
                 break;
         }
 
-        textTop.position.set(-50, -70);
+        textTop.position.set(-54, -70);
         textTop.anchor.set(0.5);
         this.addChild(textTop);
     }

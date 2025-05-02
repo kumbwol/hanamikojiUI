@@ -1,19 +1,22 @@
 import {Container} from "pixi.js";
 import {Card} from "../card/Card";
-import {TileType} from "../tile/Tile";
 
 export class Hand extends Container {
-    constructor(numOfCards: number) {
+    constructor(numOfCards: number, playerCards: number[]) {
         super();
-        this.addCards(numOfCards);
+        this.addCards(numOfCards, playerCards);
     }
 
-    private addCards(numOfCards: number) {
+    private addCards(numOfCards: number, playerCards: number[]) {
         const offsetX = 30;
-        for(let i=0; i<numOfCards; i++) {
-            const card = new Card(TileType.BACK);
-            card.x = offsetX * i;
-            this.addChild(card);
+        let numCards = 0;
+        for(let i=0; i<playerCards.length; i++) {
+            for(let j=0; j<playerCards[i]; j++) {
+                const card = new Card(i);
+                card.x = offsetX * numCards;
+                this.addChild(card);
+                numCards++;
+            }
         }
     }
 }

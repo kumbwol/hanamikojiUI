@@ -42,8 +42,8 @@ export class Stepper {
         this.maxId = data.maxId;
         stage.addChild(new Background());
         stage.addChild(new Board(data));
-        const topPlayer = new Player(data.numOfCards.first);
-        const botPlayer = new Player(data.numOfCards.second, false);
+        const topPlayer = new Player(data.numOfCards.first, data.playerInformations.first);
+        const botPlayer = new Player(data.numOfCards.second, data.playerInformations.second, false);
         stage.addChild(topPlayer);
         stage.addChild(botPlayer);
     }
