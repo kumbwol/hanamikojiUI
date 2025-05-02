@@ -2,6 +2,7 @@ import {Application} from "pixi.js";
 import {Resize} from "./Resize";
 import {GameLoader} from "./loader/GameLoader";
 import {Background} from "./components/background/Background";
+import {Board} from "./components/board/Board";
 
 export class Main {
     private loader: GameLoader;
@@ -29,6 +30,7 @@ export class Main {
 
 
         app.stage.addChild(new Background());
+        app.stage.addChild(new Board());
         app.stage.interactive = true;
     }
 }
