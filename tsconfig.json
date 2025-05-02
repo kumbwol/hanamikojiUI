@@ -1,0 +1,12 @@
+{
+  "compilerOptions": {
+    "allowSyntheticDefaultImports": true,
+    "moduleResolution": "node",
+    "module": "es6",
+    "target": "es6",
+    "sourceMap": true
+  },
+  "files": [
+    "./game/src/Main.ts"
+  ]
+}

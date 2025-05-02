@@ -1,0 +1,17 @@
+# Build results
+compiled/
+dist/
+typings/**/*
+.cache--happypack
+
+# IDE
+.idea/
+.vscode/
+
+# Others
+~$*
+*~
+node_modules/
+coverage/
+.DS_Store
+build/
