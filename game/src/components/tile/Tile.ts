@@ -95,9 +95,9 @@ export class Tile extends Container {
 }
 
 export enum TileType {
-    YELLOW,
     RED,
     PURPLE,
+    YELLOW,
     ORANGE,
     BLUE,
     GREEN,
