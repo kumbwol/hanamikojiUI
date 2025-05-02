@@ -2,13 +2,20 @@ import {Container} from "pixi.js";
 import {Tile} from "../tile/Tile";
 import {Card} from "../card/Card";
 import {Data} from "../../data/Data";
+import {OfferingThree} from "../offering/OfferingThree";
+import {OfferingFour} from "../offering/OfferingFour";
 
 export class Board extends Container {
     constructor(data: Data) {
         super();
         this.createTiles(data);
+        this.createOffering();
         this.position.set(80, 360);
         this.scale.set(0.8);
+    }
+
+    private createOffering() {
+        this.addChild(new OfferingFour());
     }
 
     private createTiles(data: Data) {

@@ -25,5 +25,6 @@ export class GameGraphics {
         this.assets.push({name: "cardPink", src: dir + "cards/cardPink.png"});
         this.assets.push({name: "cardBack", src: dir + "cards/cardBack.png"});
         this.assets.push({name: "background", src: dir + "background.png"});
+        this.assets.push({name: "offeringBackground", src: dir + "offeringBackground.png"});
     }
 }
