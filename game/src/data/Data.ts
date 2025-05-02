@@ -4,12 +4,22 @@ import * as PlayedGame from "../../games/game1.json";
 
 export class Data {
     markerPos: MarkerPosition[] = [];
+    activeCards: ActiveCards;
 
     constructor() {
-        const playedGame = PlayedGame;
+        console.log(PlayedGame);
+        const playedGame = PlayedGame[4];
         console.log(playedGame);
-        const geishaPreferences = playedGame.state.geisha_preferences;
 
+        this.parseMarkers(playedGame.state.geisha_preferences);
+        this.parseActiveCards(playedGame.state.gift_cards);
+    }
+
+    private parseActiveCards(activeCards: ActiveCards) {
+        this.activeCards = activeCards;
+    }
+
+    private parseMarkers(geishaPreferences: GeishaPreferences) {
         for(let i=0; i<7; i++) {
             this.markerPos.push(MarkerPosition.MID);
         }
@@ -30,9 +40,15 @@ export class Data {
 
 export interface BoardState {
     geishaPreferences: GeishaPreferences;
+    giftCards: ActiveCards;
 }
 
 export interface GeishaPreferences {
+    first: number[];
+    second: number[];
+}
+
+export interface ActiveCards {
     first: number[];
     second: number[];
 }

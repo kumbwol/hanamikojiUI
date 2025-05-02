@@ -13,13 +13,12 @@ export class Board extends Container {
 
     private createTiles(data: Data) {
         for(let i=0; i<7; i++) {
-            const numberOfCards = Math.floor(Math.random() * 5) + 1;
             const offsetTileX = 15;
             const tile = new Tile(i, data.markerPos[i]);
             tile.x = i * (tile.width + offsetTileX);
             this.addChild(tile);
-            this.createCards(i, tile.width, offsetTileX, numberOfCards);
-            this.createTopPlayerCards(i, tile.width, offsetTileX, numberOfCards);
+            this.createCards(i, tile.width, offsetTileX, data.activeCards.second[i]);
+            this.createTopPlayerCards(i, tile.width, offsetTileX, data.activeCards.first[i]);
         }
     }
 
