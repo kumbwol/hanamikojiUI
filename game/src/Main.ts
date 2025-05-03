@@ -1,10 +1,6 @@
-import {Application, Container} from "pixi.js";
+import {Application} from "pixi.js";
 import {Resize} from "./Resize";
 import {GameLoader} from "./loader/GameLoader";
-import {Background} from "./components/background/Background";
-import {Board} from "./components/board/Board";
-import {Data} from "./data/Data";
-import {Player} from "./components/player/Player";
 import {Stepper} from "./logic/Stepper";
 
 export class Main {

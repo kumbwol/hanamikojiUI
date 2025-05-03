@@ -11,7 +11,7 @@ export class Board extends Container {
         this.createTiles(data);
         this.createOffering(data.offering3, data.offering4);
         this.position.set(80, 360);
-        this.scale.set(0.8);
+        this.scale.set(0.7);
     }
 
     private createOffering(offering3: number[], offering4: FourWayOffering) {
