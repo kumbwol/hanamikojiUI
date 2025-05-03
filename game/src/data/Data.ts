@@ -25,6 +25,9 @@ export class Data {
         this.offering3 = playedGame.state.decision_cards_1_2;
         this.offering4.first = playedGame.state.decision_cards_2_2 ? playedGame.state.decision_cards_2_2[0] : [];
         this.offering4.second = playedGame.state.decision_cards_2_2 ? playedGame.state.decision_cards_2_2[1] : [];
+
+        this.playerInformations.first.possibleMoves = playedGame.state.action_cards.first;
+        this.playerInformations.second.possibleMoves = playedGame.state.action_cards.second;
     }
 
     private parsePlayerInformations(firstPlayerData: PlayerInfo, secondPlayerData: PlayerInfo) {
@@ -33,11 +36,13 @@ export class Data {
                 handCards: [],
                 trashedCards: [],
                 stashedCard: 0,
+                possibleMoves: []
             },
             second: {
                 handCards: [],
                 trashedCards: [],
                 stashedCard: 0,
+                possibleMoves: []
             },
         }
         this.playerInformations.first.handCards = [1,1,1,1,1,1,1];
@@ -130,4 +135,5 @@ export interface PlayerInfo {
     handCards: number[];
     stashedCard: number;
     trashedCards: number[];
+    possibleMoves: number[];
 }

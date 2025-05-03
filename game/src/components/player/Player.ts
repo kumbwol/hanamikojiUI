@@ -18,7 +18,7 @@ export class Player extends Container {
             }
         }
         const trashedCards = new TrashedCards(numOfCards, playerInfo.trashedCards);
-        const moveTiles = new MoveTile();
+        const moveTiles = new MoveTile(playerInfo.possibleMoves);
         this.addChild(hand);
         this.addChild(trashedCards);
         this.addChild(moveTiles);
