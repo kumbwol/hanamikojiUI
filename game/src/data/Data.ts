@@ -28,6 +28,8 @@ export class Data {
 
         this.playerInformations.first.possibleMoves = playedGame.state.action_cards.first;
         this.playerInformations.second.possibleMoves = playedGame.state.action_cards.second;
+        this.playerInformations.first.isActive = playedGame.state.acting_player_id === "first";
+        this.playerInformations.second.isActive = playedGame.state.acting_player_id === "second";
     }
 
     private parsePlayerInformations(firstPlayerData: PlayerInfo, secondPlayerData: PlayerInfo) {
@@ -36,13 +38,15 @@ export class Data {
                 handCards: [],
                 trashedCards: [],
                 stashedCard: 0,
-                possibleMoves: []
+                possibleMoves: [],
+                isActive: false
             },
             second: {
                 handCards: [],
                 trashedCards: [],
                 stashedCard: 0,
-                possibleMoves: []
+                possibleMoves: [],
+                isActive: false
             },
         }
         this.playerInformations.first.handCards = [1,1,1,1,1,1,1];
@@ -136,4 +140,5 @@ export interface PlayerInfo {
     stashedCard: number;
     trashedCards: number[];
     possibleMoves: number[];
+    isActive: boolean;
 }

@@ -1,8 +1,8 @@
-import {Container, Sprite} from "pixi.js";
+import {Container, Graphics, Sprite} from "pixi.js";
 import {GameLoader} from "../../loader/GameLoader";
 
 export class MoveTile extends Container {
-    constructor(possibleMoves: number[]) {
+    constructor(possibleMoves: number[], isActive: boolean) {
         super();
         const stashMove = new Sprite(GameLoader.TEXTURES.get("moveStash"));
         const trashMove = new Sprite(GameLoader.TEXTURES.get("moveTrash"));
@@ -37,6 +37,16 @@ export class MoveTile extends Container {
                     offerFourMove.alpha = dimmedAlpha;
                 }
             }
+        }
+
+        const activePlayer = new Graphics();
+        const width = 186;
+        const offsetActivePlayerX = -48;
+        const offsetActivePlayerY = -48;
+        activePlayer.roundRect(offsetActivePlayerX, offsetActivePlayerY, width, width, 10);
+        activePlayer.stroke({color: 0xE35314, width: 6});
+        if(isActive) {
+            this.addChild(activePlayer);
         }
     }
 }
