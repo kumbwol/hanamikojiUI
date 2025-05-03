@@ -13,6 +13,7 @@ export class Data {
     };
 
     constructor(stepId: number, loadedData: any) {
+        loadedData = this.extendDataWithRoundEndSteps(loadedData);
         const playedGame = loadedData[stepId];
         this.maxId = Object.values(loadedData).length;
         console.log(loadedData);
@@ -30,6 +31,21 @@ export class Data {
         this.playerInformations.second.possibleMoves = playedGame.state.action_cards.second;
         this.playerInformations.first.isActive = playedGame.state.acting_player_id === "first";
         this.playerInformations.second.isActive = playedGame.state.acting_player_id === "second";
+    }
+
+    private extendDataWithRoundEndSteps(loadedData: any): any {
+        const r = {};
+        let id = 1;
+        for(let i=1; i<=Object.values(loadedData).length; i++) {
+            if(loadedData[i].round_end_env) {
+                r[id] = loadedData[i].round_end_env;
+                id++;
+            }
+            r[id] = loadedData[i];
+            id++;
+        }
+
+        return r;
     }
 
     private parsePlayerInformations(firstPlayerData: PlayerInfo, secondPlayerData: PlayerInfo) {
