@@ -13,10 +13,9 @@ export class Data {
     };
 
     constructor(stepId: number, loadedData: any) {
-        console.log(loadedData);
         const playedGame = loadedData[stepId];
         this.maxId = Object.values(loadedData).length;
-        console.log(playedGame, this.maxId);
+        console.log(loadedData);
 
         this.parseMarkers(playedGame.state.geisha_preferences);
         this.parseActiveCards(playedGame.state.gift_cards);

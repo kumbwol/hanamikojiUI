@@ -29,7 +29,7 @@ export class Stepper {
             }
 
             if(e.key === "ArrowRight") {
-                if(this.stepId < this.maxId - 1) {
+                if(this.stepId < this.maxId) {
                     this.stepId++;
                     this.createGameState(stage);
                 }
