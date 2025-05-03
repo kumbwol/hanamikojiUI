@@ -18,5 +18,13 @@ module.exports = {
             }
         ]
     },
+    devServer: {
+        static: {
+            directory: path.join(__dirname, './'), // serves index.html from root
+        },
+        compress: true,
+        port: 3000, // or any port you want
+        open: true, // opens browser automatically
+    },
     devtool: 'source-map'
 };
