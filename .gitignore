@@ -16,3 +16,5 @@ coverage/
 .DS_Store
 build/
 *.ckpt
+**/venv/**
+**/.idea/**
