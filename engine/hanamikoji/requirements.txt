@@ -1,0 +1,5 @@
+torch>=1.6.0
+GitPython
+gitdb2
+setuptools~=79.0.1
+numpy~=2.2.5
