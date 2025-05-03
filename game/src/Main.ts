@@ -30,7 +30,24 @@ export class Main {
 
         app.stage.interactive = true;
         new Stepper(app.stage);
+
+        window.addEventListener("keydown", () => {
+            console.log("writing");
+            this.saveFile("human_in.json", "swap");
+        })
     }
+
+    private async saveFile(filename: string, content: string) {
+        const response = await fetch('http://localhost:5000/write', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ filename, content }),
+        });
+
+        const result = await response.text();
+        console.log(result);
+    }
+
 }
 
 new Main();
