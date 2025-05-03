@@ -16,6 +16,7 @@ export class Data {
         const playedGame = loadedData[stepId];
         this.maxId = Object.values(loadedData).length;
         console.log(loadedData);
+        console.log(loadedData[stepId]);
 
         this.parseMarkers(playedGame.state.geisha_preferences);
         this.parseActiveCards(playedGame.state.gift_cards);
