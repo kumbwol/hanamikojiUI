@@ -24,6 +24,10 @@ export class GameGraphics {
         this.assets.push({name: "cardGreen", src: dir + "cards/cardGreen.png"});
         this.assets.push({name: "cardPink", src: dir + "cards/cardPink.png"});
         this.assets.push({name: "cardBack", src: dir + "cards/cardBack.png"});
+        this.assets.push({name: "moveStash", src: dir + "moves/moveStashOrange.png"});
+        this.assets.push({name: "moveTrash", src: dir + "moves/moveTrashOrange.png"});
+        this.assets.push({name: "moveOfferThree", src: dir + "moves/offerThreeOrange.png"});
+        this.assets.push({name: "moveOfferFour", src: dir + "moves/offerFourOrange.png"});
         this.assets.push({name: "background", src: dir + "background.png"});
         this.assets.push({name: "offeringBackground", src: dir + "offeringBackground.png"});
     }
