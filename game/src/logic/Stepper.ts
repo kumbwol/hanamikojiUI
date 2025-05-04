@@ -3,6 +3,7 @@ import {Data} from "../data/Data";
 import {Background} from "../components/background/Background";
 import {Board} from "../components/board/Board";
 import {Player} from "../components/player/Player";
+import {EndTurnButton} from "../components/endTurnButton/EndTurnButton";
 
 export class Stepper {
     private stepId = 1;
@@ -59,5 +60,6 @@ export class Stepper {
         stage.addChild(topPlayer);
         stage.addChild(botPlayer);
         stage.addChild(new Board(data));
+        stage.addChild(new EndTurnButton());
     }
 }

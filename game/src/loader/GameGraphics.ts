@@ -30,5 +30,7 @@ export class GameGraphics {
         this.assets.push({name: "moveOfferFour", src: dir + "moves/offerFourOrange.png"});
         this.assets.push({name: "background", src: dir + "background.png"});
         this.assets.push({name: "offeringBackground", src: dir + "offeringBackground.png"});
+        this.assets.push({name: "endTurnOff", src: dir + "endTurnOff.png"});
+        this.assets.push({name: "endTurnOn", src: dir + "endTurnOn.png"});
     }
 }
