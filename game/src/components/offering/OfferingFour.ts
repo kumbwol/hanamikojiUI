@@ -18,6 +18,8 @@ export class OfferingFour extends Container {
     }
 
     private createOffering(offering: FourWayOffering) {
+        const cardsFirstPack = [];
+        const cardsSecondPack = [];
         const offsetSmallX = 40;
         const offsetLeftX = -120;
         let numOfCards = 0;
@@ -27,6 +29,8 @@ export class OfferingFour extends Container {
                 card.position.set(offsetLeftX + numOfCards * offsetSmallX, 0);
                 this.addChild(card);
                 numOfCards++;
+                cardsFirstPack.push(card);
+                card.setOriginalPos();
             }
         }
 
@@ -38,7 +42,37 @@ export class OfferingFour extends Container {
                 card.position.set(offsetRightX + numOfCards * offsetSmallX, 0);
                 this.addChild(card);
                 numOfCards++;
+                cardsSecondPack.push(card);
+                card.setOriginalPos();
             }
+        }
+
+        this.addListeners(cardsFirstPack, cardsSecondPack);
+    }
+
+    private addListeners(cardsFirstPack: Card[], cardsSecondPack: Card[]) {
+        for(let i=0; i<cardsFirstPack.length; i++) {
+            cardsFirstPack[i].addListener("click", () => {
+                for(let j=0; j<cardsSecondPack.length; j++) {
+                    cardsSecondPack[j].deSelect();
+                }
+
+                for(let j=0; j<cardsFirstPack.length; j++) {
+                    cardsFirstPack[j].select(true);
+                }
+            });
+        }
+
+        for(let i=0; i<cardsSecondPack.length; i++) {
+            cardsSecondPack[i].addListener("click", () => {
+                for(let j=0; j<cardsFirstPack.length; j++) {
+                    cardsFirstPack[j].deSelect();
+                }
+
+                for(let j=0; j<cardsSecondPack.length; j++) {
+                    cardsSecondPack[j].select(true);
+                }
+            });
         }
     }
 }
