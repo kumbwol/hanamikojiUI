@@ -17,6 +17,7 @@ export class OfferingThree extends Container {
     }
 
     private createOffering(offering: number[]) {
+        const cards = [];
         const offsetX = 120;
         let numOfCards = 0;
         for(let i=0; i<offering.length; i++) {
@@ -25,7 +26,19 @@ export class OfferingThree extends Container {
                 card.position.set(-offsetX + numOfCards * offsetX, 0);
                 this.addChild(card);
                 numOfCards++;
+                cards.push(card);
+                this.addListeners(card, cards);
+                card.setOriginalPos();
             }
         }
+    }
+
+    private addListeners(card: Card, cards: Card[]) {
+        card.addListener("click", () => {
+            for(let i=0; i<cards.length; i++) {
+                cards[i].deSelect();
+            }
+            card.select(true);
+        });
     }
 }

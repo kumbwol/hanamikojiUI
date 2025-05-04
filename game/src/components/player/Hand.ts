@@ -24,6 +24,6 @@ export class Hand extends Container {
     private addListeners(card: Card) {
         card.addListener("click", () => {
             card.select();
-        })
+        });
     }
 }

@@ -3,6 +3,7 @@ import {Text, TextStyle} from "pixi.js";
 
 export class Card extends Tile {
     private isSelected = false;
+    private originalPosY: number;
 
     constructor(type: TileType, isInverse = false) {
         super(type, MarkerPosition.MID);
@@ -14,14 +15,30 @@ export class Card extends Tile {
         this.cursor = "pointer";
     }
 
-    public select() {
-        this.isSelected = !this.isSelected;
+    public setOriginalPos() {
+        this.originalPosY = this.y;
+    }
 
+    public select(isReversed = false) {
+        this.isSelected = !this.isSelected;
         if(this.isSelected) {
-            this.y = this.y - 20;
+            if(isReversed) {
+                this.y = this.y + 20;
+            } else {
+                this.y = this.y - 20;
+            }
         } else {
-            this.y = this.y + 20;
+            if(isReversed) {
+                this.y = this.y - 20;
+            } else {
+                this.y = this.y + 20;
+            }
         }
+    }
+
+    public deSelect() {
+        this.isSelected = false;
+        this.y = this.originalPosY;
     }
 
     protected addMarker() {}
