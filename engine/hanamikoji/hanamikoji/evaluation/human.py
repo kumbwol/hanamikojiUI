@@ -5,7 +5,7 @@ import time
 
 
 def parse_move(response):
-    return None, None
+    return [response.get('type'), response.get('move')], response.get("tick")
 
 
 class Human:
@@ -53,10 +53,9 @@ class Human:
             if self.interrupt == "reset" or self.interrupt == "swap":
                 return random.choice(infoset[1].moves)
             else:
-                move, tick = parse_move(response)
-                if move is not None and tick is not None:
-                    if tick != self.last_tick:
-                        self.last_tick = tick
+                if response is not None:
+                    move, tick = parse_move(response)
+                    if move is not None and tick is not None:
                         assert move in infoset[1].moves
                         return move
 
