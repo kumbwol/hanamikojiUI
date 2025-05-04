@@ -18,3 +18,4 @@ build/
 *.ckpt
 **/venv/**
 **/.idea/**
+agent_out.json
