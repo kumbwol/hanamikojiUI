@@ -2,10 +2,25 @@ import {MarkerPosition, Tile, TileType} from "../tile/Tile";
 import {Text, TextStyle} from "pixi.js";
 
 export class Card extends Tile {
+    private isSelected = false;
+
     constructor(type: TileType, isInverse = false) {
         super(type, MarkerPosition.MID);
         if(isInverse) {
             this.rotation = Math.PI;
+        }
+
+        this.interactive = true;
+        this.cursor = "pointer";
+    }
+
+    public select() {
+        this.isSelected = !this.isSelected;
+
+        if(this.isSelected) {
+            this.y = this.y - 20;
+        } else {
+            this.y = this.y + 20;
         }
     }
 

@@ -16,7 +16,14 @@ export class Hand extends Container {
                 card.x = offsetX * numCards;
                 this.addChild(card);
                 numCards++;
+                this.addListeners(card);
             }
         }
+    }
+
+    private addListeners(card: Card) {
+        card.addListener("click", () => {
+            card.select();
+        })
     }
 }
