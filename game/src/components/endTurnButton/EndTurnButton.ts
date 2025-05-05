@@ -17,12 +17,6 @@ export class EndTurnButton extends Container {
 
         endTurnOn.visible = false;
 
-        endTurnOff.interactive = true;
-        endTurnOn.interactive = true;
-
-        endTurnOff.cursor = "pointer";
-        endTurnOn.cursor = "pointer";
-
         const style = new TextStyle({
             fontSize: 28,
             align: "center",
@@ -35,20 +29,29 @@ export class EndTurnButton extends Container {
         endTurnText.interactive = false;
         endTurnText.eventMode = "none";
 
-        endTurnOff.addEventListener("click", () => {
-            console.log(MoveTiles.activeMoveID, Player.cntSelectedCards);
-            endTurnOff.visible = false;
-            endTurnOn.visible = true;
-        });
-
         endTurnOn.addEventListener("click", () => {
-            console.log(MoveTiles.activeMoveID, Player.cntSelectedCards);
-            endTurnOff.visible = true;
-            endTurnOn.visible = false;
+            console.log("possible move");
         });
 
         stage.addEventListener("change", () => {
-            console.log("change");
+            console.log(MoveTiles.activeMoveID, Player.cntSelectedCards);
+            if(MoveTiles.activeMoveID === Player.cntSelectedCards) {
+                this.activate(endTurnOff, endTurnOn);
+            } else {
+                this.deActivate(endTurnOff, endTurnOn);
+            }
         });
+    }
+
+    private activate(endTurnOff: Sprite, endTurnOn: Sprite) {
+        endTurnOff.visible = false;
+        endTurnOn.visible = true;
+        endTurnOn.interactive = true;
+    }
+
+    private deActivate(endTurnOff: Sprite, endTurnOn: Sprite) {
+        endTurnOff.visible = true;
+        endTurnOn.visible = false;
+        endTurnOn.interactive = false;
     }
 }

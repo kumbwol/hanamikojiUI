@@ -22,7 +22,6 @@ export class Card extends Tile {
     }
 
     public select(isReversed = false) {
-        Main.STAGE.emit("change");
         this.isSelected = !this.isSelected;
         if(this.isSelected) {
             if(isReversed) {
@@ -39,6 +38,7 @@ export class Card extends Tile {
             }
             Player.cntSelectedCards--;
         }
+        Main.STAGE.emit("change");
     }
 
     public deSelect() {
