@@ -4,7 +4,7 @@ import {MoveField, MoveType} from "./MoveField";
 export class MoveTiles extends Container {
     public static activeMoveID = MoveType.UNKNOWN;
 
-    constructor(possibleMoves: number[], isActive: boolean) {
+    constructor(stage: Container, possibleMoves: number[], isActive: boolean) {
         super();
         const stashMove = new MoveField(MoveType.STASH);
         const trashMove = new MoveField(MoveType.TRASH);
@@ -48,16 +48,17 @@ export class MoveTiles extends Container {
         }
 
         const moves = [stashMove, trashMove, offerThreeMove, offerFourMove];
-        this.addListeners(moves);
+        this.addListeners(moves, stage);
     }
 
-    private addListeners(moves: MoveField[]) {
+    private addListeners(moves: MoveField[], stage: Container) {
         for(let i=0; i<moves.length; i++) {
             moves[i].addListener("click", () => {
                 for(let j=0; j<moves.length; j++) {
                     moves[j].unSelect();
                 }
                 moves[i].select();
+                stage.emit("change");
             });
         }
     }

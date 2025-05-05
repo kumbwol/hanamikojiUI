@@ -4,7 +4,7 @@ import {MoveTiles} from "../player/MoveTiles";
 import {Player} from "../player/Player";
 
 export class EndTurnButton extends Container {
-    constructor() {
+    constructor(stage: Container) {
         super();
         const endTurnOff = new Sprite(GameLoader.TEXTURES.get("endTurnOff"));
         endTurnOff.anchor.set(0.5);
@@ -45,6 +45,10 @@ export class EndTurnButton extends Container {
             console.log(MoveTiles.activeMoveID, Player.cntSelectedCards);
             endTurnOff.visible = true;
             endTurnOn.visible = false;
+        });
+
+        stage.addEventListener("change", () => {
+            console.log("change");
         });
     }
 }

@@ -8,7 +8,7 @@ import {MoveTiles} from "./MoveTiles";
 export class Player extends Container {
     public static cntSelectedCards = 0;
 
-    constructor(numOfCards: number, playerInfo: PlayerInfo, isTop = true) {
+    constructor(stage: Container, numOfCards: number, playerInfo: PlayerInfo, isTop = true) {
         super();
         const hand = new Hand(numOfCards, playerInfo.handCards);
         if(playerInfo.stashedCard !== -1) {
@@ -20,7 +20,7 @@ export class Player extends Container {
             }
         }
         const trashedCards = new TrashedCards(numOfCards, playerInfo.trashedCards);
-        const moveTiles = new MoveTiles(playerInfo.possibleMoves, playerInfo.isActive);
+        const moveTiles = new MoveTiles(stage, playerInfo.possibleMoves, playerInfo.isActive);
         this.addChild(hand);
         this.addChild(trashedCards);
         this.addChild(moveTiles);

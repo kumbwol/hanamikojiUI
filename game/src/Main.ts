@@ -1,9 +1,10 @@
-import {Application} from "pixi.js";
+import {Application, Container} from "pixi.js";
 import {Resize} from "./Resize";
 import {GameLoader} from "./loader/GameLoader";
 import {Gamer} from "./logic/Gamer";
 
 export class Main {
+    public static STAGE: Container;
     private loader: GameLoader;
     private resize: Resize;
 
@@ -27,6 +28,7 @@ export class Main {
         window.onresize = () => this.resize.resize(app.screen);
         await this.loader.loadImages();
 
+        Main.STAGE = app.stage;
 
         app.stage.interactive = true;
         //new Stepper(app.stage);

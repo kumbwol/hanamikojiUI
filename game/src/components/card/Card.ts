@@ -1,6 +1,7 @@
 import {MarkerPosition, Tile, TileType} from "../tile/Tile";
 import {Text, TextStyle} from "pixi.js";
 import {Player} from "../player/Player";
+import {Main} from "../../Main";
 
 export class Card extends Tile {
     private isSelected = false;
@@ -21,6 +22,7 @@ export class Card extends Tile {
     }
 
     public select(isReversed = false) {
+        Main.STAGE.emit("change");
         this.isSelected = !this.isSelected;
         if(this.isSelected) {
             if(isReversed) {

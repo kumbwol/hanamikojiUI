@@ -32,6 +32,7 @@ export class Gamer {
     }
 
     private reset(stage: Container) {
+        stage.removeAllListeners();
         stage.removeChildren();
     }
 
@@ -40,11 +41,11 @@ export class Gamer {
         const data = new Data(this.stepId, this.loadedData);
         this.maxId = data.maxId;
         stage.addChild(new Background());
-        const topPlayer = new Player(data.numOfCards.first, data.playerInformations.first);
-        const botPlayer = new Player(data.numOfCards.second, data.playerInformations.second, false);
+        const topPlayer = new Player(stage, data.numOfCards.first, data.playerInformations.first);
+        const botPlayer = new Player(stage, data.numOfCards.second, data.playerInformations.second, false);
         stage.addChild(topPlayer);
         stage.addChild(botPlayer);
         stage.addChild(new Board(data));
-        stage.addChild(new EndTurnButton());
+        stage.addChild(new EndTurnButton(stage));
     }
 }
