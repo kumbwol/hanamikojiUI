@@ -27,6 +27,7 @@ export class Main {
         this.resize.resize(app.screen);
         window.onresize = () => this.resize.resize(app.screen);
         await this.loader.loadImages();
+        app.view.addEventListener('contextmenu', (e) => e.preventDefault());
 
         Main.STAGE = app.stage;
 

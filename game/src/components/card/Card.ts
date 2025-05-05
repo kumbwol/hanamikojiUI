@@ -1,24 +1,53 @@
 import {MarkerPosition, Tile, TileType} from "../tile/Tile";
-import {Text, TextStyle} from "pixi.js";
+import {Graphics, Text, TextStyle} from "pixi.js";
 import {Player} from "../player/Player";
 import {Main} from "../../Main";
 
 export class Card extends Tile {
     private isSelected = false;
+    private isDoubleSelected = false;
     private originalPosY: number;
+    private selector: Graphics;
+    private type: TileType;
 
     constructor(type: TileType, isInverse = false) {
         super(type, MarkerPosition.MID);
         if(isInverse) {
             this.rotation = Math.PI;
         }
+        this.type = type;
 
         this.interactive = true;
         this.cursor = "pointer";
+        this.addDoubleSelector();
+    }
+
+    private addDoubleSelector() {
+        this.selector = new Graphics();
+        this.selector.rect(-70, -90, 140, 180);
+        this.selector.stroke({color: 0xFFFF00, width: 6});
+        this.selector.visible = false;
+        this.addChild(this.selector);
     }
 
     public setOriginalPos() {
         this.originalPosY = this.y;
+    }
+
+    public doubleSelect() {
+        if(!this.isSelected) {
+            return;
+        }
+
+        this.isDoubleSelected = !this.isDoubleSelected;
+        if(this.isDoubleSelected) {
+            this.selector.visible = true;
+            Player.doubleSelectedCards.push(this.type);
+        } else {
+            this.selector.visible = false;
+            this.removeDoubleSelectedCard();
+        }
+        Main.STAGE.emit("change");
     }
 
     public select(isReversed = false) {
@@ -29,16 +58,37 @@ export class Card extends Tile {
             } else {
                 this.y = this.y - 20;
             }
-            Player.cntSelectedCards++;
+            Player.selectedCards.push(this.type);
         } else {
+            this.removeDoubleSelectedCard();
+            this.isDoubleSelected = false;
+            this.selector.visible = false;
             if(isReversed) {
                 this.y = this.y - 20;
             } else {
                 this.y = this.y + 20;
             }
-            Player.cntSelectedCards--;
+            this.removeSelectedCard();
         }
         Main.STAGE.emit("change");
+    }
+
+    private removeDoubleSelectedCard() {
+        for(let i=0; i<Player.doubleSelectedCards.length; i++) {
+            if(Player.doubleSelectedCards[i] === this.type) {
+                Player.doubleSelectedCards.splice(i, 1);
+                break;
+            }
+        }
+    }
+
+    private removeSelectedCard() {
+        for(let i=0; i<Player.selectedCards.length; i++) {
+            if(Player.selectedCards[i] === this.type) {
+                Player.selectedCards.splice(i, 1);
+                break;
+            }
+        }
     }
 
     public deSelect() {

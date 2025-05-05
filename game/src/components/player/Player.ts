@@ -4,9 +4,11 @@ import {PlayerInfo} from "../../data/Data";
 import {TrashedCards} from "./TrashedCards";
 import {StashedCard} from "./StashedCard";
 import {MoveTiles} from "./MoveTiles";
+import {TileType} from "../tile/Tile";
 
 export class Player extends Container {
-    public static cntSelectedCards = 0;
+    public static selectedCards: TileType[] = [];
+    public static doubleSelectedCards: TileType[] = [];
 
     constructor(stage: Container, numOfCards: number, playerInfo: PlayerInfo, isTop = true) {
         super();

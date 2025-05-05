@@ -1,5 +1,7 @@
 import {Container} from "pixi.js";
 import {Card} from "../card/Card";
+import {MoveTiles} from "./MoveTiles";
+import {MoveType} from "./MoveField";
 
 export class Hand extends Container {
     constructor(numOfCards: number, playerCards: number[]) {
@@ -22,8 +24,12 @@ export class Hand extends Container {
     }
 
     private addListeners(card: Card) {
-        card.addListener("click", () => {
-            card.select();
+        card.on("pointertap", (e) => {
+            if(e.button === 0) {
+                card.select();
+            } else if(MoveTiles.activeMoveID === MoveType.OFFER_4) {
+                card.doubleSelect();
+            }
         });
     }
 }

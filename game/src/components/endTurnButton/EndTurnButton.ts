@@ -2,6 +2,7 @@ import {Container, Sprite, Text, TextStyle} from "pixi.js";
 import {GameLoader} from "../../loader/GameLoader";
 import {MoveTiles} from "../player/MoveTiles";
 import {Player} from "../player/Player";
+import {MoveType} from "../player/MoveField";
 
 export class EndTurnButton extends Container {
     constructor(stage: Container) {
@@ -34,8 +35,18 @@ export class EndTurnButton extends Container {
         });
 
         stage.addEventListener("change", () => {
-            console.log(MoveTiles.activeMoveID, Player.cntSelectedCards);
-            if(MoveTiles.activeMoveID === Player.cntSelectedCards) {
+            let isActive = false;
+            if(MoveTiles.activeMoveID === MoveType.OFFER_4 && Player.selectedCards.length === 4 && Player.doubleSelectedCards.length === 2) {
+                isActive = true;
+            } else if(MoveTiles.activeMoveID === MoveType.OFFER_3 && Player.selectedCards.length === 3) {
+                isActive = true;
+            } else if(MoveTiles.activeMoveID === MoveType.TRASH && Player.selectedCards.length === 2) {
+                isActive = true;
+            } else if(MoveTiles.activeMoveID === MoveType.STASH && Player.selectedCards.length === 1) {
+                isActive = true;
+            }
+
+            if(isActive) {
                 this.activate(endTurnOff, endTurnOn);
             } else {
                 this.deActivate(endTurnOff, endTurnOn);
