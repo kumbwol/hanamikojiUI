@@ -94,6 +94,7 @@ export class Card extends Tile {
     public deSelect() {
         this.isSelected = false;
         this.y = this.originalPosY;
+        this.removeSelectedCard();
     }
 
     protected addMarker() {}

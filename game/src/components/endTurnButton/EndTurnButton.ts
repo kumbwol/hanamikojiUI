@@ -36,6 +36,7 @@ export class EndTurnButton extends Container {
 
         stage.addEventListener("change", () => {
             let isActive = false;
+            console.log(Player.selectedCards);
             if(MoveTiles.activeMoveID === MoveType.OFFER_4 && Player.selectedCards.length === 4 && Player.doubleSelectedCards.length === 2) {
                 isActive = true;
             } else if(MoveTiles.activeMoveID === MoveType.OFFER_3 && Player.selectedCards.length === 3) {
@@ -43,6 +44,8 @@ export class EndTurnButton extends Container {
             } else if(MoveTiles.activeMoveID === MoveType.TRASH && Player.selectedCards.length === 2) {
                 isActive = true;
             } else if(MoveTiles.activeMoveID === MoveType.STASH && Player.selectedCards.length === 1) {
+                isActive = true;
+            } else if(MoveTiles.activeMoveID === MoveType.SELECT_FROM_3 && Player.selectedCards.length === 1) {
                 isActive = true;
             }
 

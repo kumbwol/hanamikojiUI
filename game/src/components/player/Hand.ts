@@ -25,6 +25,10 @@ export class Hand extends Container {
 
     private addListeners(card: Card) {
         card.on("pointertap", (e) => {
+            if(MoveTiles.activeMoveID >= MoveType.SELECT_FROM_3) {
+                return;
+            }
+
             if(e.button === 0) {
                 card.select();
             } else if(MoveTiles.activeMoveID === MoveType.OFFER_4) {

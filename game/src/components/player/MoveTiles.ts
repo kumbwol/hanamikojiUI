@@ -54,6 +54,10 @@ export class MoveTiles extends Container {
     private addListeners(moves: MoveField[], stage: Container) {
         for(let i=0; i<moves.length; i++) {
             moves[i].addListener("click", () => {
+                if(MoveTiles.activeMoveID >= MoveType.SELECT_FROM_3) {
+                    return;
+                }
+
                 for(let j=0; j<moves.length; j++) {
                     moves[j].unSelect();
                 }

@@ -4,6 +4,8 @@ import {Card} from "../card/Card";
 import {Data, FourWayOffering} from "../../data/Data";
 import {OfferingThree} from "../offering/OfferingThree";
 import {OfferingFour} from "../offering/OfferingFour";
+import {MoveTiles} from "../player/MoveTiles";
+import {MoveType} from "../player/MoveField";
 
 export class Board extends Container {
     constructor(data: Data) {
@@ -16,8 +18,10 @@ export class Board extends Container {
 
     private createOffering(offering3: number[], offering4: FourWayOffering) {
         if(offering3) {
+            MoveTiles.activeMoveID = MoveType.SELECT_FROM_3;
             this.addChild(new OfferingThree(offering3));
         } else if(offering4.first.length > 0) {
+            MoveTiles.activeMoveID = MoveType.SELECT_FROM_4;
             this.addChild(new OfferingFour(offering4));
         }
     }
