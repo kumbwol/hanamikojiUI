@@ -1,6 +1,7 @@
 import {Container, Sprite} from "pixi.js";
 import {GameLoader} from "../../loader/GameLoader";
 import {Card} from "../card/Card";
+import {Player} from "../player/Player";
 
 export class OfferingThree extends Container {
     constructor(offering: number[]) {
@@ -29,6 +30,7 @@ export class OfferingThree extends Container {
                 cards.push(card);
                 this.addListeners(card, cards);
                 card.setOriginalPos();
+                Player.offeringCards3.push(i);
             }
         }
     }

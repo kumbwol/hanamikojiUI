@@ -3,6 +3,8 @@ import {GameLoader} from "../../loader/GameLoader";
 import {MoveTiles} from "../player/MoveTiles";
 import {Player} from "../player/Player";
 import {MoveType} from "../player/MoveField";
+import {Main} from "../../Main";
+import {Gamer} from "../../logic/Gamer";
 
 export class EndTurnButton extends Container {
     constructor(stage: Container) {
@@ -31,7 +33,39 @@ export class EndTurnButton extends Container {
         endTurnText.eventMode = "none";
 
         endTurnOn.addEventListener("click", () => {
-            console.log("possible move");
+            switch (MoveTiles.activeMoveID) {
+                case MoveType.STASH:
+                    Main.sendMove("human_in.json", this.doStashMove());
+                    break;
+
+                case MoveType.TRASH:
+                    Main.sendMove("human_in.json", this.doTrashMove());
+                    break;
+
+                case MoveType.OFFER_3:
+                    Main.sendMove("human_in.json", this.doOffer3Move());
+                    break;
+
+                case MoveType.OFFER_4:
+                    const r = this.generateArrayFromNotDoubleSelectedCards();
+                    const d = this.generateArrayFromDoubleSelectedCards();
+                    console.log(`{"tick":${Gamer.ID},"type":3,"move":[[${r}],[${d}]],"command":null}`);
+                    //Main.sendMove("human_in.json", this.doOffer4Move());
+                    break;
+
+                case MoveType.SELECT_FROM_3:
+                    Main.sendMove("human_in.json", this.doSelectFrom3Move());
+                    break;
+
+                case MoveType.SELECT_FROM_4:
+                    Main.sendMove("human_in.json", this.doSelectFrom4Move());
+                    break;
+            }
+            MoveTiles.activeMoveID = MoveType.UNKNOWN;
+            Player.selectedCards = [];
+            Player.offeringCards3 = [];
+            Player.offeringCards4 = [];
+            Player.doubleSelectedCards = [];
         });
 
         stage.addEventListener("change", () => {
@@ -47,6 +81,8 @@ export class EndTurnButton extends Container {
                 isActive = true;
             } else if(MoveTiles.activeMoveID === MoveType.SELECT_FROM_3 && Player.selectedCards.length === 1) {
                 isActive = true;
+            }  else if(MoveTiles.activeMoveID === MoveType.SELECT_FROM_4 && Player.selectedCards.length === 2) {
+                isActive = true;
             }
 
             if(isActive) {
@@ -57,15 +93,144 @@ export class EndTurnButton extends Container {
         });
     }
 
+    private doStashMove(): string {
+        const r = this.generateArrayFromSelectedCards();
+        return `{"tick":${Gamer.ID},"type":0,"move":[${r}],"command":null}`;
+    }
+
+    private doTrashMove(): string {
+        const r = this.generateArrayFromSelectedCards();
+        return `{"tick":${Gamer.ID},"type":1,"move":[${r}],"command":null}`;
+    }
+
+    private doOffer3Move(): string {
+        const r = this.generateArrayFromSelectedCards();
+        return `{"tick":${Gamer.ID},"type":2,"move":[${r}],"command":null}`;
+    }
+
+    private doOffer4Move(): string {
+        const r = this.generateArrayFromNotDoubleSelectedCards();
+        const d = this.generateArrayFromDoubleSelectedCards();
+        return `{"tick":${Gamer.ID},"type":3,"move":[[${r}],[${d}]],"command":null}`;
+    }
+
+    private doSelectFrom3Move(): string {
+        const r = this.generateArrayFromSelectedCards();
+        const n = this.generateArrayFromNotSelectedCards3();
+        return `{"tick":${Gamer.ID},"type":4,"move":[[${r}],[${n}]],"command":null}`;
+    }
+
+    private doSelectFrom4Move(): string {
+        const r = this.generateArrayFromSelectedCards();
+        const n = this.generateArrayFromNotSelectedCards4();
+
+        return `{"tick":${Gamer.ID},"type":5,"move":[[${r}],[${n}]],"command":null}`;
+    }
+
+    private generateArrayFromSelectedCards(): number[] {
+        const r = [];
+
+        for(let i=0; i<7; i++) {
+            r.push(0);
+        }
+
+        for(let i=0; i<Player.selectedCards.length; i++) {
+            r[Player.selectedCards[i]]++;
+        }
+
+        return r;
+    }
+
+    private generateArrayFromDoubleSelectedCards(): number[] {
+        const r = [];
+
+        for(let i=0; i<7; i++) {
+            r.push(0);
+        }
+
+        for(let i=0; i<Player.doubleSelectedCards.length; i++) {
+            r[Player.doubleSelectedCards[i]]++;
+        }
+
+        return r;
+    }
+
+    private generateArrayFromNotDoubleSelectedCards(): number[] {
+        let c = [];
+
+        for(let i=0; i<Player.selectedCards.length; i++) {
+            let isIncluded = false;
+            for(let j=0; j<Player.doubleSelectedCards.length; j++) {
+                if(Player.selectedCards[i] === Player.doubleSelectedCards[j]) {
+                    isIncluded = true;
+                    break;
+                }
+            }
+            if(!isIncluded) {
+                c.push(Player.selectedCards[i]);
+            }
+        }
+
+        console.log("!!", c);
+
+        Player.selectedCards = c;
+
+        return this.generateArrayFromSelectedCards();
+    }
+
+    private generateArrayFromNotSelectedCards3(): number[] {
+        for(let i=0; i<Player.offeringCards3.length; i++) {
+            if(Player.offeringCards3[i] === Player.selectedCards[0]) {
+                Player.offeringCards3.splice(i, 1);
+                break;
+            }
+        }
+
+        const r = [];
+
+        for(let i=0; i<7; i++) {
+            r.push(0);
+        }
+
+        for(let i=0; i<Player.offeringCards3.length; i++) {
+            r[Player.offeringCards3[i]]++;
+        }
+
+        return r;
+    }
+
+    private generateArrayFromNotSelectedCards4(): number[] {
+        const r = [];
+        let s = [];
+
+        if(Player.selectedCards[0] === Player.offeringCards4[0][0] && Player.selectedCards[1] === Player.offeringCards4[0][1]) {
+            s = Player.offeringCards4[1];
+        } else {
+            s = Player.offeringCards4[0];
+        }
+
+        for(let i=0; i<7; i++) {
+            r.push(0);
+        }
+
+        for(let i=0; i<s.length; i++) {
+            r[s[i]]++;
+        }
+
+        return r;
+    }
+
     private activate(endTurnOff: Sprite, endTurnOn: Sprite) {
         endTurnOff.visible = false;
         endTurnOn.visible = true;
         endTurnOn.interactive = true;
+        endTurnOn.cursor = "pointer";
     }
 
     private deActivate(endTurnOff: Sprite, endTurnOn: Sprite) {
         endTurnOff.visible = true;
         endTurnOn.visible = false;
         endTurnOn.interactive = false;
+        endTurnOn.cursor = "default";
     }
 }

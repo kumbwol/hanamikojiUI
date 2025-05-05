@@ -2,6 +2,7 @@ import {Container, Sprite} from "pixi.js";
 import {GameLoader} from "../../loader/GameLoader";
 import {Card} from "../card/Card";
 import {FourWayOffering} from "../../data/Data";
+import {Player} from "../player/Player";
 
 export class OfferingFour extends Container {
     constructor(offering: FourWayOffering) {
@@ -31,6 +32,7 @@ export class OfferingFour extends Container {
                 numOfCards++;
                 cardsFirstPack.push(card);
                 card.setOriginalPos();
+                Player.offeringCards4[0].push(i);
             }
         }
 
@@ -44,6 +46,7 @@ export class OfferingFour extends Container {
                 numOfCards++;
                 cardsSecondPack.push(card);
                 card.setOriginalPos();
+                Player.offeringCards4[1].push(i);
             }
         }
 

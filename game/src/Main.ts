@@ -5,6 +5,7 @@ import {Gamer} from "./logic/Gamer";
 
 export class Main {
     public static STAGE: Container;
+    public static sendMove: (filename: string, content: string) => {};
     private loader: GameLoader;
     private resize: Resize;
 
@@ -42,6 +43,8 @@ export class Main {
                 this.saveFile("human_in.json", `{"tick" : ${Gamer.ID}, "command" : "reset"}`);
             }
         })
+
+        Main.sendMove = this.saveFile;
     }
 
     private async saveFile(filename: string, content: string) {

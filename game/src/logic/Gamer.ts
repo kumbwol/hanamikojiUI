@@ -6,7 +6,7 @@ import {Board} from "../components/board/Board";
 import {EndTurnButton} from "../components/endTurnButton/EndTurnButton";
 
 export class Gamer {
-    public static ID = 0;
+    public static ID = Math.floor(Math.random() * 1000000);
 
     private lastId = -1;
     private stepId = 1;

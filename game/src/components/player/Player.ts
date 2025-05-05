@@ -7,11 +7,15 @@ import {MoveTiles} from "./MoveTiles";
 import {TileType} from "../tile/Tile";
 
 export class Player extends Container {
+    public static offeringCards3: TileType[] = [];
+    public static offeringCards4: TileType[][] = [];
     public static selectedCards: TileType[] = [];
     public static doubleSelectedCards: TileType[] = [];
 
     constructor(stage: Container, numOfCards: number, playerInfo: PlayerInfo, isTop = true) {
         super();
+        Player.offeringCards4.push([]);
+        Player.offeringCards4.push([]);
         const hand = new Hand(numOfCards, playerInfo.handCards);
         if(playerInfo.stashedCard !== -1) {
             const stashedCard = new StashedCard(playerInfo.stashedCard);
