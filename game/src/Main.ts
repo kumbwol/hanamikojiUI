@@ -2,6 +2,7 @@ import {Application} from "pixi.js";
 import {Resize} from "./Resize";
 import {GameLoader} from "./loader/GameLoader";
 import {Stepper} from "./logic/Stepper";
+import {Gamer} from "./logic/Gamer";
 
 export class Main {
     private loader: GameLoader;
@@ -29,11 +30,12 @@ export class Main {
 
 
         app.stage.interactive = true;
-        new Stepper(app.stage);
+        //new Stepper(app.stage);
+        new Gamer(app.stage);
 
         window.addEventListener("keydown", () => {
             console.log("writing");
-            this.saveFile("human_in.json", "swap");
+            this.saveFile("human_in.json", "{\"tick\" : 10, \"command\" : \"swap\"}");
         })
     }
 
