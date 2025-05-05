@@ -1,7 +1,6 @@
 import {Application} from "pixi.js";
 import {Resize} from "./Resize";
 import {GameLoader} from "./loader/GameLoader";
-import {Stepper} from "./logic/Stepper";
 import {Gamer} from "./logic/Gamer";
 
 export class Main {
@@ -33,21 +32,22 @@ export class Main {
         //new Stepper(app.stage);
         new Gamer(app.stage);
 
-        window.addEventListener("keydown", () => {
-            console.log("writing");
-            this.saveFile("human_in.json", "{\"tick\" : 10, \"command\" : \"swap\"}");
+        window.addEventListener("keydown", (e) => {
+            if(e.key === "s") {
+                this.saveFile("human_in.json", `{"tick" : ${Gamer.ID}, "command" : "swap"}`);
+            } else if(e.key === "r") {
+                this.saveFile("human_in.json", `{"tick" : ${Gamer.ID}, "command" : "reset"}`);
+            }
         })
     }
 
     private async saveFile(filename: string, content: string) {
-        const response = await fetch('http://localhost:5000/write', {
+        Gamer.ID++;
+        await fetch('http://localhost:5000/write', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ filename, content }),
         });
-
-        const result = await response.text();
-        console.log(result);
     }
 
 }

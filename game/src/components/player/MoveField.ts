@@ -1,12 +1,15 @@
 import {Container, Graphics, Sprite} from "pixi.js";
 import {GameLoader} from "../../loader/GameLoader";
+import {MoveTiles} from "./MoveTiles";
 
 export class MoveField extends Container {
     private image: Sprite;
     private selector: Graphics;
+    private readonly type: MoveType;
 
     constructor(type: MoveType) {
         super();
+        this.type = type;
         this.createImage(type);
         this.createSelectFrame();
         this.interactive = true;
@@ -18,6 +21,7 @@ export class MoveField extends Container {
     }
 
     public select() {
+        MoveTiles.activeMoveID = this.type;
         this.selector.visible = true;
     }
 
@@ -66,5 +70,7 @@ export enum MoveType {
     STASH,
     TRASH,
     OFFER_3,
-    OFFER_4
+    OFFER_4,
+    SELECT_FROM_3,
+    SELECT_FROM_4
 }

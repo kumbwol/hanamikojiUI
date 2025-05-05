@@ -3,9 +3,11 @@ import {Hand} from "./Hand";
 import {PlayerInfo} from "../../data/Data";
 import {TrashedCards} from "./TrashedCards";
 import {StashedCard} from "./StashedCard";
-import {MoveTile} from "./MoveTiles";
+import {MoveTiles} from "./MoveTiles";
 
 export class Player extends Container {
+    public static cntSelectedCards = 0;
+
     constructor(numOfCards: number, playerInfo: PlayerInfo, isTop = true) {
         super();
         const hand = new Hand(numOfCards, playerInfo.handCards);
@@ -18,7 +20,7 @@ export class Player extends Container {
             }
         }
         const trashedCards = new TrashedCards(numOfCards, playerInfo.trashedCards);
-        const moveTiles = new MoveTile(playerInfo.possibleMoves, playerInfo.isActive);
+        const moveTiles = new MoveTiles(playerInfo.possibleMoves, playerInfo.isActive);
         this.addChild(hand);
         this.addChild(trashedCards);
         this.addChild(moveTiles);

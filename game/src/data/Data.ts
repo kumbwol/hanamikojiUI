@@ -13,7 +13,7 @@ export class Data {
     };
 
     constructor(stepId: number, loadedData: any) {
-        loadedData = this.extendDataWithRoundEndSteps(loadedData);
+        //loadedData = this.extendDataWithRoundEndSteps(loadedData);
         const playedGame = loadedData[stepId];
         this.maxId = Object.values(loadedData).length;
         console.log(loadedData);

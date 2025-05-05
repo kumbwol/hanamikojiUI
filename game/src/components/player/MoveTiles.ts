@@ -1,8 +1,8 @@
 import {Container, Graphics} from "pixi.js";
 import {MoveField, MoveType} from "./MoveField";
 
-export class MoveTile extends Container {
-    private activeMoveID = MoveType.UNKNOWN;
+export class MoveTiles extends Container {
+    public static activeMoveID = MoveType.UNKNOWN;
 
     constructor(possibleMoves: number[], isActive: boolean) {
         super();
@@ -58,7 +58,7 @@ export class MoveTile extends Container {
                     moves[j].unSelect();
                 }
                 moves[i].select();
-            })
+            });
         }
     }
 }

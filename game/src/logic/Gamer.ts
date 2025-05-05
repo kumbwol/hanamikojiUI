@@ -6,6 +6,8 @@ import {Board} from "../components/board/Board";
 import {EndTurnButton} from "../components/endTurnButton/EndTurnButton";
 
 export class Gamer {
+    public static ID = 0;
+
     private lastId = -1;
     private stepId = 1;
     private maxId: number;

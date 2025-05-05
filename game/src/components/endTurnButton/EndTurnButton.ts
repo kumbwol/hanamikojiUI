@@ -1,5 +1,7 @@
 import {Container, Sprite, Text, TextStyle} from "pixi.js";
 import {GameLoader} from "../../loader/GameLoader";
+import {MoveTiles} from "../player/MoveTiles";
+import {Player} from "../player/Player";
 
 export class EndTurnButton extends Container {
     constructor() {
@@ -34,11 +36,13 @@ export class EndTurnButton extends Container {
         endTurnText.eventMode = "none";
 
         endTurnOff.addEventListener("click", () => {
+            console.log(MoveTiles.activeMoveID, Player.cntSelectedCards);
             endTurnOff.visible = false;
             endTurnOn.visible = true;
         });
 
         endTurnOn.addEventListener("click", () => {
+            console.log(MoveTiles.activeMoveID, Player.cntSelectedCards);
             endTurnOff.visible = true;
             endTurnOn.visible = false;
         });
