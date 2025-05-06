@@ -3,6 +3,6 @@ import {Card} from "../card/Card";
 
 export class StashedCard extends Card {
     constructor(type: TileType) {
-        super(type);
+        super(type, true);
     }
 }

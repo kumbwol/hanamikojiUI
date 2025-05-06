@@ -41,7 +41,7 @@ export class Board extends Container {
         const offsetFromTileY = 195;
         const offsetFromCardsY = 35;
         for(let j=0; j<numOfCards; j++) {
-            const card = new Card(i);
+            const card = new Card(i, true);
             card.x = i * (width + offset);
             card.y = offsetFromTileY + j * offsetFromCardsY;
             this.addChild(card);

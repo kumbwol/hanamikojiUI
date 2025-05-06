@@ -10,15 +10,17 @@ export class Card extends Tile {
     private selector: Graphics;
     private type: TileType;
 
-    constructor(type: TileType, isInverse = false) {
+    constructor(type: TileType, isTrashed: boolean, isInverse = false) {
         super(type, MarkerPosition.MID);
         if(isInverse) {
             this.rotation = Math.PI;
         }
         this.type = type;
 
-        this.interactive = true;
-        this.cursor = "pointer";
+        if(!isTrashed) {
+            this.interactive = true;
+            this.cursor = "pointer";
+        }
         this.addDoubleSelector();
     }
 

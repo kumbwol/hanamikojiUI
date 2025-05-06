@@ -23,7 +23,7 @@ export class OfferingThree extends Container {
         let numOfCards = 0;
         for(let i=0; i<offering.length; i++) {
             for(let j=0; j<offering[i]; j++) {
-                const card = new Card(i);
+                const card = new Card(i, false);
                 card.position.set(-offsetX + numOfCards * offsetX, 0);
                 this.addChild(card);
                 numOfCards++;

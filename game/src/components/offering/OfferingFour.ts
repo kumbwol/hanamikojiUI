@@ -26,7 +26,7 @@ export class OfferingFour extends Container {
         let numOfCards = 0;
         for(let i=0; i<offering.first.length; i++) {
             for(let j=0; j<offering.first[i]; j++) {
-                const card = new Card(i);
+                const card = new Card(i, false);
                 card.position.set(offsetLeftX + numOfCards * offsetSmallX, 0);
                 this.addChild(card);
                 numOfCards++;
@@ -40,7 +40,7 @@ export class OfferingFour extends Container {
         numOfCards = 0;
         for(let i=0; i<offering.second.length; i++) {
             for(let j=0; j<offering.second[i]; j++) {
-                const card = new Card(i);
+                const card = new Card(i, false);
                 card.position.set(offsetRightX + numOfCards * offsetSmallX, 0);
                 this.addChild(card);
                 numOfCards++;
