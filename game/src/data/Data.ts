@@ -11,6 +11,7 @@ export class Data {
         first: [],
         second: []
     };
+    isFirstHuman: boolean;
 
     constructor(stepId: number, loadedData: any) {
         //loadedData = this.extendDataWithRoundEndSteps(loadedData);
@@ -18,6 +19,7 @@ export class Data {
         this.maxId = Object.values(loadedData).length;
         console.log(loadedData);
         console.log(loadedData[stepId]);
+        this.isFirstHuman = playedGame.players.first === "Human";
 
         this.parseMarkers(playedGame.state.geisha_preferences);
         this.parseActiveCards(playedGame.state.gift_cards);
