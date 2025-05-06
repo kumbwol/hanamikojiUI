@@ -47,10 +47,7 @@ export class EndTurnButton extends Container {
                     break;
 
                 case MoveType.OFFER_4:
-                    const r = this.generateArrayFromNotDoubleSelectedCards();
-                    const d = this.generateArrayFromDoubleSelectedCards();
-                    console.log(`{"tick":${Gamer.ID},"type":3,"move":[[${r}],[${d}]],"command":null}`);
-                    //Main.sendMove("human_in.json", this.doOffer4Move());
+                    Main.sendMove("human_in.json", this.doOffer4Move());
                     break;
 
                 case MoveType.SELECT_FROM_3:
@@ -156,26 +153,14 @@ export class EndTurnButton extends Container {
     }
 
     private generateArrayFromNotDoubleSelectedCards(): number[] {
-        let c = [];
+        const r = this.generateArrayFromSelectedCards();
+        const c = this.generateArrayFromDoubleSelectedCards();
 
-        for(let i=0; i<Player.selectedCards.length; i++) {
-            let isIncluded = false;
-            for(let j=0; j<Player.doubleSelectedCards.length; j++) {
-                if(Player.selectedCards[i] === Player.doubleSelectedCards[j]) {
-                    isIncluded = true;
-                    break;
-                }
-            }
-            if(!isIncluded) {
-                c.push(Player.selectedCards[i]);
-            }
+        for(let i=0; i<r.length; i++) {
+            r[i] -= c[i];
         }
 
-        console.log("!!", c);
-
-        Player.selectedCards = c;
-
-        return this.generateArrayFromSelectedCards();
+        return r;
     }
 
     private generateArrayFromNotSelectedCards3(): number[] {
