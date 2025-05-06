@@ -8,9 +8,8 @@ def parse_move(response):
     move_type = response.get('type')
     move = response.get('move')
     if move_type == 3:
-        if move[1][1] < move[1][0]:
-            move[1][0], move[1][1] = move[1][1], move[1][0]
-
+        if move[1] < move[0]:
+            move[0], move[1] = move[1], move[0]
     return [move_type, move], response.get("tick")
 
 
