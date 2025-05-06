@@ -36,7 +36,7 @@ export class Card extends Tile {
 
     public doubleSelect() {
         if(!this.isSelected) {
-            return;
+            this.select();
         }
 
         this.isDoubleSelected = !this.isDoubleSelected;
