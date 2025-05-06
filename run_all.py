@@ -18,8 +18,7 @@ python_dir = os.path.join("engine", "hanamikoji")
 if platform.system() == "Windows":
     activate_cmd = "..\\..\\venv\\Scripts\\activate && python engine.py"
 else:
-    activate_cmd = "source ../../venv/bin/activate && python engine.py"
-
+    activate_cmd = "venv/bin/python engine.py"
 processes.append(run_command(activate_cmd, cwd=python_dir))
 
 # Wait for all
