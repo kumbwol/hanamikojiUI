@@ -2,6 +2,9 @@ import {Application, Container} from "pixi.js";
 import {Resize} from "./Resize";
 import {GameLoader} from "./loader/GameLoader";
 import {Gamer} from "./logic/Gamer";
+import {MoveTiles} from "./components/player/MoveTiles";
+import {MoveType} from "./components/player/MoveField";
+import {Player} from "./components/player/Player";
 
 export class Main {
     public static STAGE: Container;
@@ -48,6 +51,11 @@ export class Main {
     }
 
     private async saveFile(filename: string, content: string) {
+        MoveTiles.activeMoveID = MoveType.UNKNOWN;
+        Player.selectedCards = [];
+        Player.offeringCards3 = [];
+        Player.offeringCards4 = [];
+        Player.doubleSelectedCards = [];
         Gamer.ID++;
         await fetch('http://localhost:5000/write', {
             method: 'POST',

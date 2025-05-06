@@ -58,11 +58,7 @@ export class EndTurnButton extends Container {
                     Main.sendMove("human_in.json", this.doSelectFrom4Move());
                     break;
             }
-            MoveTiles.activeMoveID = MoveType.UNKNOWN;
-            Player.selectedCards = [];
-            Player.offeringCards3 = [];
-            Player.offeringCards4 = [];
-            Player.doubleSelectedCards = [];
+            endTurnOn.interactive = false;
         });
 
         stage.addEventListener("change", () => {
