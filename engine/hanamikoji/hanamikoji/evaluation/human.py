@@ -5,7 +5,13 @@ import time
 
 
 def parse_move(response):
-    return [response.get('type'), response.get('move')], response.get("tick")
+    move_type = response.get('type')
+    move = response.get('move')
+    if move_type == 3:
+        if move[1][1] < move[1][0]:
+            move[1][0], move[1][1] = move[1][1], move[1][0]
+
+    return [move_type, move], response.get("tick")
 
 
 class Human:
