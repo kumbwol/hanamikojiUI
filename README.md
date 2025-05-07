@@ -27,7 +27,7 @@ the backend.
 # 1. Clone the repository
 git clone https://github.com/kumbwol/hanamikojiUI.git
 
-# 2. Navigate to the project root directory. All the upcoming commands should be called from here.
+# 2. Navigate to the project root directory.
 cd ./hanamikojiUI
 
 # 3. Set up the frontend
