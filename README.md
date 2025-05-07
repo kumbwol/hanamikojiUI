@@ -13,9 +13,8 @@ git --version
 # 2. Check npm. In case it is not available: sudo apt install nodejs npm -y
 npm --version
 
-# 3. Check pip and python. In case they are not available: sudo apt install python3 python3-pip -y
+# 3. Check python. In case it is not available: sudo apt install python3 -y
 python3 --version
-pip3 --version
 ```
 
 After installation, the full repository may use up to 6GB of storage due to a large Python virtual environment used by
