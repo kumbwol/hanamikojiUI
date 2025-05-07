@@ -32,7 +32,6 @@ cd ./hanamikojiUI
 
 # 3. Set up the frontend
 npm ci
-npm run filesystemIO
 npm run dev
 # After "webpack compiled successfully", press Ctrl + C to stop the dev server
 
