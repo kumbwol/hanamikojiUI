@@ -40,7 +40,7 @@ source ./engine/hanamikoji/venv/bin/activate
 pip install -r ./engine/hanamikoji/requirements.txt
 ```
 
-You can now close the terminal. As a final installation step, copy the `first.ckpt` and `second.ckpt` files into the following folder:
+You can now close the terminal. As a final installation step, copy the `first.ckpt` and `second.ckpt` files into the following folder:  
 ./engine/hanamikoji/baselines
 
 ### 3. Running the App
