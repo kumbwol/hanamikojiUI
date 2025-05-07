@@ -5,7 +5,7 @@
 ### 1. Prerequisites
 Obtain the `first.ckpt` and `second.ckpt` model files. These files should be requested from the authors.
 
-Prepare you system:
+Prepare your system:
 ```bash
 # 1. Check git. In case it is not available: sudo apt install git -y
 git --version 
