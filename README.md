@@ -3,52 +3,74 @@
 ## Linux
 
 ### 1. Prerequisites
+
 ```bash
-# 1. Check git. In case it is not available: sudo apt install git -y
+# 1. Have the first.ckpt and second.ckpt model files. These file should be requested from the authors.
+
+# 2. Check git. In case it is not available: sudo apt install git -y
 git --version 
 
-# 2. Check npm. In case it is not available: sudo apt install nodejs npm -y
+# 3. Check npm. In case it is not available: sudo apt install nodejs npm -y
 npm --version
 
-#3 Check pip and python. In case they are not available: sudo apt install python3 python3-pip -y
+# 4. Check pip and python. In case they are not available: sudo apt install python3 python3-pip -y
 python3 --version
 pip3 --version
 ```
-The whole repo after install will take roughly 6GB storage (mostly because the backend uses a huge python venv)
 
-### 2. Prepare the repo (has to do only once)
+After installation, the full repository may use up to 6GB of storage due to a large Python virtual environment used by
+the backend.
+
+### 2. Setup (run once)
+
 ```bash
-# 1. Clone the repo
+# 1. Clone the repository
 git clone https://github.com/kumbwol/hanamikojiUI.git
 
-# 2. Move to the root of the repo. All the upcoming commands should be called from here.
+# 2. Navigate to the project root directory. All the upcoming commands should be called from here.
 cd ./hanamikojiUI
 
-# 3a. Call npm ci
+# 3. Set up the frontend
 npm ci
-
-# 3b. Call npm run dev. After receiving the message on "webpack compiled successfully" you can hit Ctrl + c to get back terminal
 npm run dev
+# After "webpack compiled successfully", press Ctrl + C to stop the dev server
 
-# 4. Prepare the python backend
+# 4. Set up the Python backend
 python3 -m venv ./engine/hanamikoji/venv
 source ./engine/hanamikoji/venv/bin/activate
 pip install -r ./engine/hanamikoji/requirements.txt
 ```
 
-After succesfull preparation you can turn off the terminal.
+You can now close the terminal. As a final step of the installation copy first.ckpt and second.ckpt files into folder:
+./engine/hanamikoji/baselines
 
+### 3. Running the App
 
-## 3. Run
-From the root of the repo call:
+From the root of the repository run:
+
 ```bash
 python3 run_all.py
 ```
 
-You can stop the processes by hitting ctlr + c. It is expected that everything will close down nicely.
-To assure that everything closed nicely hit
+Press Ctrl + C to stop all processes. The system should shut down gracefully.
+
+### 4. Verifying Shutdown (optional)
+
 ```bash
 lsof -i :3000
 ```
-No elements should be listed. (In case some elements are listed kill them by the pid e.g: kill 33614)
+
+No elements should be listed.
+If anything is still running, you may see output like:
+
+```bash
+COMMAND   PID USER   FD   TYPE DEVICE SIZE/OFF NODE NAME
+webpack 33614   jw   27u  IPv6 400242      0t0  TCP *:3000 (LISTEN)
+```
+
+To kill the process:
+
+```bash
+kill 33614
+```
 
