@@ -2,8 +2,16 @@ import subprocess
 import os
 import platform
 
+
 def run_command(command, cwd=None):
     return subprocess.Popen(command, cwd=cwd, shell=True)
+
+
+# Ensure an empty agent_out.json exists before start
+json_file_path = os.path.join("engine", "hanamikoji", "agent_out.json")
+os.makedirs(os.path.dirname(json_file_path), exist_ok=True)
+with open(json_file_path, 'w') as f:
+    pass
 
 processes = []
 
