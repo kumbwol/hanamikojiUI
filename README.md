@@ -3,17 +3,17 @@
 ## Linux
 
 ### 1. Prerequisites
+Obtain the `first.ckpt` and `second.ckpt` model files. These files should be requested from the authors.
 
+Prepare you system:
 ```bash
-# 1. Have the first.ckpt and second.ckpt model files. These file should be requested from the authors.
-
-# 2. Check git. In case it is not available: sudo apt install git -y
+# 1. Check git. In case it is not available: sudo apt install git -y
 git --version 
 
-# 3. Check npm. In case it is not available: sudo apt install nodejs npm -y
+# 2. Check npm. In case it is not available: sudo apt install nodejs npm -y
 npm --version
 
-# 4. Check pip and python. In case they are not available: sudo apt install python3 python3-pip -y
+# 3. Check pip and python. In case they are not available: sudo apt install python3 python3-pip -y
 python3 --version
 pip3 --version
 ```
@@ -41,7 +41,7 @@ source ./engine/hanamikoji/venv/bin/activate
 pip install -r ./engine/hanamikoji/requirements.txt
 ```
 
-You can now close the terminal. As a final step of the installation copy first.ckpt and second.ckpt files into folder:
+You can now close the terminal. As a final installation step, copy the `first.ckpt` and `second.ckpt` files into following folder:
 ./engine/hanamikoji/baselines
 
 ### 3. Running the App
