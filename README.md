@@ -51,7 +51,7 @@ From the root of the repository run:
 python3 run_all.py
 ```
 
-Press Ctrl + C to stop all processes. The system should shut down gracefully.
+When finished playing, press Ctrl + C to stop all processes. The system should shut down gracefully.
 
 ### 4. Verifying Shutdown (optional)
 
