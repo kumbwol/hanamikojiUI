@@ -502,12 +502,13 @@ class EndTurnButton extends pixi_js__WEBPACK_IMPORTED_MODULE_0__.Container {
                 this.deActivate(endTurnOff, endTurnOn);
             }
         });
-        if (isRoundEnd) {
+        if (isRoundEnd && !_Main__WEBPACK_IMPORTED_MODULE_5__.Main.ROUND_END_COFIRMED) {
             this.activate(endTurnOff, endTurnOn);
         }
         else {
             this.deActivate(endTurnOff, endTurnOn);
         }
+        _Main__WEBPACK_IMPORTED_MODULE_5__.Main.ROUND_END_COFIRMED = false;
     }
     doStashMove() {
         const r = this.generateArrayFromSelectedCards();
@@ -1000,21 +1001,21 @@ __webpack_require__.r(__webpack_exports__);
 
 
 class Player extends pixi_js__WEBPACK_IMPORTED_MODULE_0__.Container {
-    constructor(stage, isHuman, numOfCards, playerInfo) {
+    constructor(stage, isHuman, numOfCards, playerInfo, isRoundEnd) {
         super();
         const isTop = !isHuman;
         Player.offeringCards4.push([]);
         Player.offeringCards4.push([]);
         const hand = new _Hand__WEBPACK_IMPORTED_MODULE_1__.Hand(numOfCards, playerInfo.handCards, isHuman);
         if (playerInfo.stashedCard !== -1) {
-            const stashedCard = new _StashedCard__WEBPACK_IMPORTED_MODULE_3__.StashedCard(isHuman ? playerInfo.stashedCard : _tile_Tile__WEBPACK_IMPORTED_MODULE_5__.TileType.BACK);
+            const stashedCard = new _StashedCard__WEBPACK_IMPORTED_MODULE_3__.StashedCard((isHuman || isRoundEnd) ? playerInfo.stashedCard : _tile_Tile__WEBPACK_IMPORTED_MODULE_5__.TileType.BACK);
             this.addChild(stashedCard);
             stashedCard.position.set(0, 200);
             if (!isTop) {
                 stashedCard.position.set(0, -200);
             }
         }
-        const trashedCards = new _TrashedCards__WEBPACK_IMPORTED_MODULE_2__.TrashedCards(numOfCards, playerInfo.trashedCards, isHuman);
+        const trashedCards = new _TrashedCards__WEBPACK_IMPORTED_MODULE_2__.TrashedCards(numOfCards, playerInfo.trashedCards, (isHuman || isRoundEnd));
         const moveTiles = new _MoveTiles__WEBPACK_IMPORTED_MODULE_4__.MoveTiles(stage, playerInfo.possibleMoves, playerInfo.isActive);
         this.addChild(hand);
         this.addChild(trashedCards);
@@ -1230,6 +1231,10 @@ class Data {
         let playedGame = loadedData[stepId];
         this.isRoundEnd = (playedGame.round_end_env !== null && !_Main__WEBPACK_IMPORTED_MODULE_1__.Main.ROUND_END_COFIRMED);
         playedGame = (this.isRoundEnd) ? playedGame.round_end_env : playedGame;
+        if (playedGame.winner !== null) {
+            this.isRoundEnd = true;
+            _Main__WEBPACK_IMPORTED_MODULE_1__.Main.ROUND_END_COFIRMED = true;
+        }
         this.maxId = Object.values(loadedData).length;
         this.isFirstHuman = playedGame.players.first === "Human";
         this.parseMarkers(playedGame.state.geisha_preferences);
@@ -1243,7 +1248,6 @@ class Data {
         this.playerInformations.second.possibleMoves = playedGame.state.action_cards.second;
         this.playerInformations.first.isActive = playedGame.state.acting_player_id === "first";
         this.playerInformations.second.isActive = playedGame.state.acting_player_id === "second";
-        _Main__WEBPACK_IMPORTED_MODULE_1__.Main.ROUND_END_COFIRMED = false;
     }
     extendDataWithRoundEndSteps(loadedData) {
         const r = {};
@@ -1477,8 +1481,8 @@ class Gamer {
         const data = new _data_Data__WEBPACK_IMPORTED_MODULE_0__.Data(this.stepId, this.loadedData);
         this.maxId = data.maxId;
         stage.addChild(new _components_background_Background__WEBPACK_IMPORTED_MODULE_1__.Background());
-        const topPlayer = new _components_player_Player__WEBPACK_IMPORTED_MODULE_2__.Player(stage, data.isFirstHuman, data.numOfCards.first, data.playerInformations.first);
-        const botPlayer = new _components_player_Player__WEBPACK_IMPORTED_MODULE_2__.Player(stage, !data.isFirstHuman, data.numOfCards.second, data.playerInformations.second);
+        const topPlayer = new _components_player_Player__WEBPACK_IMPORTED_MODULE_2__.Player(stage, data.isFirstHuman, data.numOfCards.first, data.playerInformations.first, data.isRoundEnd);
+        const botPlayer = new _components_player_Player__WEBPACK_IMPORTED_MODULE_2__.Player(stage, !data.isFirstHuman, data.numOfCards.second, data.playerInformations.second, data.isRoundEnd);
         stage.addChild(topPlayer);
         stage.addChild(botPlayer);
         stage.addChild(new _components_board_Board__WEBPACK_IMPORTED_MODULE_3__.Board(data));

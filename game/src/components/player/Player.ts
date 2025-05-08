@@ -12,21 +12,21 @@ export class Player extends Container {
     public static selectedCards: TileType[] = [];
     public static doubleSelectedCards: TileType[] = [];
 
-    constructor(stage: Container, isHuman: boolean, numOfCards: number, playerInfo: PlayerInfo) {
+    constructor(stage: Container, isHuman: boolean, numOfCards: number, playerInfo: PlayerInfo, isRoundEnd: boolean) {
         super();
         const isTop = !isHuman;
         Player.offeringCards4.push([]);
         Player.offeringCards4.push([]);
         const hand = new Hand(numOfCards, playerInfo.handCards, isHuman);
         if(playerInfo.stashedCard !== -1) {
-            const stashedCard = new StashedCard(isHuman ? playerInfo.stashedCard : TileType.BACK);
+            const stashedCard = new StashedCard((isHuman || isRoundEnd) ? playerInfo.stashedCard : TileType.BACK);
             this.addChild(stashedCard);
             stashedCard.position.set(0, 200);
             if(!isTop) {
                 stashedCard.position.set(0, -200);
             }
         }
-        const trashedCards = new TrashedCards(numOfCards, playerInfo.trashedCards, isHuman);
+        const trashedCards = new TrashedCards(numOfCards, playerInfo.trashedCards, (isHuman || isRoundEnd));
         const moveTiles = new MoveTiles(stage, playerInfo.possibleMoves, playerInfo.isActive);
         this.addChild(hand);
         this.addChild(trashedCards);

@@ -20,6 +20,10 @@ export class Data {
         let playedGame = loadedData[stepId];
         this.isRoundEnd = (playedGame.round_end_env !== null && !Main.ROUND_END_COFIRMED);
         playedGame = (this.isRoundEnd) ? playedGame.round_end_env : playedGame;
+        if(playedGame.winner !== null) {
+            this.isRoundEnd = true;
+            Main.ROUND_END_COFIRMED = true;
+        }
         this.maxId = Object.values(loadedData).length;
         this.isFirstHuman = playedGame.players.first === "Human";
 
@@ -35,7 +39,6 @@ export class Data {
         this.playerInformations.second.possibleMoves = playedGame.state.action_cards.second;
         this.playerInformations.first.isActive = playedGame.state.acting_player_id === "first";
         this.playerInformations.second.isActive = playedGame.state.acting_player_id === "second";
-        Main.ROUND_END_COFIRMED = false;
     }
 
     private extendDataWithRoundEndSteps(loadedData: any): any {

@@ -88,11 +88,12 @@ export class EndTurnButton extends Container {
             }
         });
 
-        if(isRoundEnd) {
+        if(isRoundEnd && !Main.ROUND_END_COFIRMED) {
             this.activate(endTurnOff, endTurnOn);
         } else {
             this.deActivate(endTurnOff, endTurnOn);
         }
+        Main.ROUND_END_COFIRMED = false;
     }
 
     private doStashMove(): string {
