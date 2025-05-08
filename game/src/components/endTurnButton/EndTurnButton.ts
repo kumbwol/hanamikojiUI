@@ -37,27 +37,27 @@ export class EndTurnButton extends Container {
             } else {
                 switch (MoveTiles.activeMoveID) {
                     case MoveType.STASH:
-                        Main.sendMove("human_in.json", this.doStashMove());
+                        Main.sendMove(this.doStashMove());
                         break;
 
                     case MoveType.TRASH:
-                        Main.sendMove("human_in.json", this.doTrashMove());
+                        Main.sendMove(this.doTrashMove());
                         break;
 
                     case MoveType.OFFER_3:
-                        Main.sendMove("human_in.json", this.doOffer3Move());
+                        Main.sendMove(this.doOffer3Move());
                         break;
 
                     case MoveType.OFFER_4:
-                        Main.sendMove("human_in.json", this.doOffer4Move());
+                        Main.sendMove(this.doOffer4Move());
                         break;
 
                     case MoveType.SELECT_FROM_3:
-                        Main.sendMove("human_in.json", this.doSelectFrom3Move());
+                        Main.sendMove(this.doSelectFrom3Move());
                         break;
 
                     case MoveType.SELECT_FROM_4:
-                        Main.sendMove("human_in.json", this.doSelectFrom4Move());
+                        Main.sendMove(this.doSelectFrom4Move());
                         break;
                 }
             }

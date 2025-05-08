@@ -9,7 +9,7 @@ import {Player} from "./components/player/Player";
 export class Main {
     public static ROUND_END_COFIRMED = false;
     public static STAGE: Container;
-    public static sendMove: (filename: string, content: string) => {};
+    public static sendMove: (content: string) => {};
     private loader: GameLoader;
     private resize: Resize;
 
@@ -39,32 +39,7 @@ export class Main {
         app.stage.interactive = true;
         //new Stepper(app.stage);
         new Gamer(app.stage);
-
-        window.addEventListener("keydown", (e) => {
-            if(e.key === "s") {
-                this.saveFile("human_in.json", `{"tick" : ${Gamer.ID}, "command" : "swap"}`);
-            } else if(e.key === "r") {
-                this.saveFile("human_in.json", `{"tick" : ${Gamer.ID}, "command" : "reset"}`);
-            }
-        })
-
-        Main.sendMove = this.saveFile;
     }
-
-    private async saveFile(filename: string, content: string) {
-        MoveTiles.activeMoveID = MoveType.UNKNOWN;
-        Player.selectedCards = [];
-        Player.offeringCards3 = [];
-        Player.offeringCards4 = [];
-        Player.doubleSelectedCards = [];
-        Gamer.ID++;
-        await fetch('http://localhost:5000/write', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ filename, content }),
-        });
-    }
-
 }
 
 new Main();

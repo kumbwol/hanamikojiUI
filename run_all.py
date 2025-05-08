@@ -18,9 +18,6 @@ processes = []
 # Start frontend
 processes.append(run_command("npm run start"))
 
-# Start filesystemIO (Node backend)
-processes.append(run_command("npm run filesystemIO"))
-
 # Run Python backend in the correct directory
 python_dir = os.path.join("engine", "hanamikoji")
 if platform.system() == "Windows":

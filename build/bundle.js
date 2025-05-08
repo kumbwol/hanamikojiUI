@@ -16,9 +16,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _Resize__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Resize */ "./game/src/Resize.ts");
 /* harmony import */ var _loader_GameLoader__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./loader/GameLoader */ "./game/src/loader/GameLoader.ts");
 /* harmony import */ var _logic_Gamer__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./logic/Gamer */ "./game/src/logic/Gamer.ts");
-/* harmony import */ var _components_player_MoveTiles__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./components/player/MoveTiles */ "./game/src/components/player/MoveTiles.ts");
-/* harmony import */ var _components_player_MoveField__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./components/player/MoveField */ "./game/src/components/player/MoveField.ts");
-/* harmony import */ var _components_player_Player__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./components/player/Player */ "./game/src/components/player/Player.ts");
 var __awaiter = (undefined && undefined.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
@@ -28,9 +25,6 @@ var __awaiter = (undefined && undefined.__awaiter) || function (thisArg, _argume
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
-
-
-
 
 
 
@@ -59,30 +53,6 @@ class Main {
             app.stage.interactive = true;
             //new Stepper(app.stage);
             new _logic_Gamer__WEBPACK_IMPORTED_MODULE_3__.Gamer(app.stage);
-            window.addEventListener("keydown", (e) => {
-                if (e.key === "s") {
-                    this.saveFile("human_in.json", `{"tick" : ${_logic_Gamer__WEBPACK_IMPORTED_MODULE_3__.Gamer.ID}, "command" : "swap"}`);
-                }
-                else if (e.key === "r") {
-                    this.saveFile("human_in.json", `{"tick" : ${_logic_Gamer__WEBPACK_IMPORTED_MODULE_3__.Gamer.ID}, "command" : "reset"}`);
-                }
-            });
-            Main.sendMove = this.saveFile;
-        });
-    }
-    saveFile(filename, content) {
-        return __awaiter(this, void 0, void 0, function* () {
-            _components_player_MoveTiles__WEBPACK_IMPORTED_MODULE_4__.MoveTiles.activeMoveID = _components_player_MoveField__WEBPACK_IMPORTED_MODULE_5__.MoveType.UNKNOWN;
-            _components_player_Player__WEBPACK_IMPORTED_MODULE_6__.Player.selectedCards = [];
-            _components_player_Player__WEBPACK_IMPORTED_MODULE_6__.Player.offeringCards3 = [];
-            _components_player_Player__WEBPACK_IMPORTED_MODULE_6__.Player.offeringCards4 = [];
-            _components_player_Player__WEBPACK_IMPORTED_MODULE_6__.Player.doubleSelectedCards = [];
-            _logic_Gamer__WEBPACK_IMPORTED_MODULE_3__.Gamer.ID++;
-            yield fetch('http://localhost:5000/write', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ filename, content }),
-            });
         });
     }
 }
@@ -453,22 +423,22 @@ class EndTurnButton extends pixi_js__WEBPACK_IMPORTED_MODULE_0__.Container {
             else {
                 switch (_player_MoveTiles__WEBPACK_IMPORTED_MODULE_2__.MoveTiles.activeMoveID) {
                     case _player_MoveField__WEBPACK_IMPORTED_MODULE_4__.MoveType.STASH:
-                        _Main__WEBPACK_IMPORTED_MODULE_5__.Main.sendMove("human_in.json", this.doStashMove());
+                        _Main__WEBPACK_IMPORTED_MODULE_5__.Main.sendMove(this.doStashMove());
                         break;
                     case _player_MoveField__WEBPACK_IMPORTED_MODULE_4__.MoveType.TRASH:
-                        _Main__WEBPACK_IMPORTED_MODULE_5__.Main.sendMove("human_in.json", this.doTrashMove());
+                        _Main__WEBPACK_IMPORTED_MODULE_5__.Main.sendMove(this.doTrashMove());
                         break;
                     case _player_MoveField__WEBPACK_IMPORTED_MODULE_4__.MoveType.OFFER_3:
-                        _Main__WEBPACK_IMPORTED_MODULE_5__.Main.sendMove("human_in.json", this.doOffer3Move());
+                        _Main__WEBPACK_IMPORTED_MODULE_5__.Main.sendMove(this.doOffer3Move());
                         break;
                     case _player_MoveField__WEBPACK_IMPORTED_MODULE_4__.MoveType.OFFER_4:
-                        _Main__WEBPACK_IMPORTED_MODULE_5__.Main.sendMove("human_in.json", this.doOffer4Move());
+                        _Main__WEBPACK_IMPORTED_MODULE_5__.Main.sendMove(this.doOffer4Move());
                         break;
                     case _player_MoveField__WEBPACK_IMPORTED_MODULE_4__.MoveType.SELECT_FROM_3:
-                        _Main__WEBPACK_IMPORTED_MODULE_5__.Main.sendMove("human_in.json", this.doSelectFrom3Move());
+                        _Main__WEBPACK_IMPORTED_MODULE_5__.Main.sendMove(this.doSelectFrom3Move());
                         break;
                     case _player_MoveField__WEBPACK_IMPORTED_MODULE_4__.MoveType.SELECT_FROM_4:
-                        _Main__WEBPACK_IMPORTED_MODULE_5__.Main.sendMove("human_in.json", this.doSelectFrom4Move());
+                        _Main__WEBPACK_IMPORTED_MODULE_5__.Main.sendMove(this.doSelectFrom4Move());
                         break;
                 }
             }
@@ -1438,6 +1408,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _components_player_Player__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../components/player/Player */ "./game/src/components/player/Player.ts");
 /* harmony import */ var _components_board_Board__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../components/board/Board */ "./game/src/components/board/Board.ts");
 /* harmony import */ var _components_endTurnButton_EndTurnButton__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../components/endTurnButton/EndTurnButton */ "./game/src/components/endTurnButton/EndTurnButton.ts");
+/* harmony import */ var _components_player_MoveTiles__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../components/player/MoveTiles */ "./game/src/components/player/MoveTiles.ts");
+/* harmony import */ var _components_player_MoveField__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../components/player/MoveField */ "./game/src/components/player/MoveField.ts");
+/* harmony import */ var _Main__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../Main */ "./game/src/Main.ts");
 var __awaiter = (undefined && undefined.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
@@ -1452,24 +1425,40 @@ var __awaiter = (undefined && undefined.__awaiter) || function (thisArg, _argume
 
 
 
+
+
+
 class Gamer {
     constructor(stage) {
-        this.lastId = -1;
         this.stepId = 1;
-        this.checkForOpponentMove(stage);
+        Gamer.socket = new WebSocket("ws://localhost:8764");
+        Gamer.socket.onopen = () => {
+            console.log("Connected to WebSocket server");
+        };
+        Gamer.socket.onmessage = (event) => {
+            this.loadedData = JSON.parse(event.data);
+            this.stepId = parseInt(Object.keys(this.loadedData)[0]);
+            this.createGameState(stage);
+        };
+        window.addEventListener("keydown", (e) => {
+            if (e.key === "s") {
+                Gamer.socket.send(`{"tick" : ${Gamer.ID}, "command" : "swap"}`);
+            }
+            else if (e.key === "r") {
+                Gamer.socket.send(`{"tick" : ${Gamer.ID}, "command" : "reset"}`);
+            }
+        });
+        _Main__WEBPACK_IMPORTED_MODULE_7__.Main.sendMove = this.saveFile;
     }
-    checkForOpponentMove(stage) {
+    saveFile(content) {
         return __awaiter(this, void 0, void 0, function* () {
-            setInterval(() => __awaiter(this, void 0, void 0, function* () {
-                const res = yield fetch('http://localhost:5000/file-content');
-                const data = yield res.json();
-                this.loadedData = JSON.parse(data.content);
-                this.stepId = parseInt(Object.keys(this.loadedData)[0]);
-                if (this.loadedData && this.lastId !== this.stepId) {
-                    this.lastId = this.stepId;
-                    this.createGameState(stage);
-                }
-            }), 500);
+            _components_player_MoveTiles__WEBPACK_IMPORTED_MODULE_5__.MoveTiles.activeMoveID = _components_player_MoveField__WEBPACK_IMPORTED_MODULE_6__.MoveType.UNKNOWN;
+            _components_player_Player__WEBPACK_IMPORTED_MODULE_2__.Player.selectedCards = [];
+            _components_player_Player__WEBPACK_IMPORTED_MODULE_2__.Player.offeringCards3 = [];
+            _components_player_Player__WEBPACK_IMPORTED_MODULE_2__.Player.offeringCards4 = [];
+            _components_player_Player__WEBPACK_IMPORTED_MODULE_2__.Player.doubleSelectedCards = [];
+            //console.log(JSON.parse(content))
+            Gamer.socket.send(content);
         });
     }
     reset(stage) {

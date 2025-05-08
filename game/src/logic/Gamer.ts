@@ -4,31 +4,49 @@ import {Background} from "../components/background/Background";
 import {Player} from "../components/player/Player";
 import {Board} from "../components/board/Board";
 import {EndTurnButton} from "../components/endTurnButton/EndTurnButton";
+import {MoveTiles} from "../components/player/MoveTiles";
+import {MoveType} from "../components/player/MoveField";
+import {Main} from "../Main";
 
 export class Gamer {
     public static ID = Math.floor(Math.random() * 1000000);
-
-    private lastId = -1;
     private stepId = 1;
     private maxId: number;
     private loadedData: any;
+    private static socket: WebSocket;
 
     constructor(stage: Container) {
-        this.checkForOpponentMove(stage);
+        Gamer.socket = new WebSocket("ws://localhost:8764");
+
+        Gamer.socket.onopen = () => {
+            console.log("Connected to WebSocket server");
+        };
+
+        Gamer.socket.onmessage = (event) => {
+            this.loadedData = JSON.parse(event.data);
+            this.stepId = parseInt(Object.keys(this.loadedData)[0]);
+            this.createGameState(stage);
+        };
+
+        window.addEventListener("keydown", (e) => {
+            if(e.key === "s") {
+                Gamer.socket.send(`{"tick" : ${Gamer.ID}, "command" : "swap"}`);
+            } else if(e.key === "r") {
+                Gamer.socket.send(`{"tick" : ${Gamer.ID}, "command" : "reset"}`);
+            }
+        });
+
+        Main.sendMove = this.saveFile;
     }
 
-    private async checkForOpponentMove(stage: Container) {
-        setInterval(async () => {
-            const res = await fetch('http://localhost:5000/file-content');
-            const data = await res.json();
-            this.loadedData = JSON.parse(data.content);
-            this.stepId = parseInt(Object.keys(this.loadedData)[0]);
-
-            if (this.loadedData && this.lastId !== this.stepId) {
-                this.lastId = this.stepId;
-                this.createGameState(stage);
-            }
-        }, 500);
+    private async saveFile(content: string) {
+        MoveTiles.activeMoveID = MoveType.UNKNOWN;
+        Player.selectedCards = [];
+        Player.offeringCards3 = [];
+        Player.offeringCards4 = [];
+        Player.doubleSelectedCards = [];
+        //console.log(JSON.parse(content))
+        Gamer.socket.send(content);
     }
 
     private reset(stage: Container) {
