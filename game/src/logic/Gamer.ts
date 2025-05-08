@@ -42,7 +42,7 @@ export class Gamer {
         this.maxId = data.maxId;
         stage.addChild(new Background());
         const topPlayer = new Player(stage, data.isFirstHuman, data.numOfCards.first, data.playerInformations.first);
-        const botPlayer = new Player(stage, !data.isFirstHuman, data.numOfCards.second, data.playerInformations.second, false);
+        const botPlayer = new Player(stage, !data.isFirstHuman, data.numOfCards.second, data.playerInformations.second);
         stage.addChild(topPlayer);
         stage.addChild(botPlayer);
         stage.addChild(new Board(data));

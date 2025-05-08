@@ -12,8 +12,9 @@ export class Player extends Container {
     public static selectedCards: TileType[] = [];
     public static doubleSelectedCards: TileType[] = [];
 
-    constructor(stage: Container, isHuman: boolean, numOfCards: number, playerInfo: PlayerInfo, isTop = true) {
+    constructor(stage: Container, isHuman: boolean, numOfCards: number, playerInfo: PlayerInfo) {
         super();
+        const isTop = !isHuman;
         Player.offeringCards4.push([]);
         Player.offeringCards4.push([]);
         const hand = new Hand(numOfCards, playerInfo.handCards, isHuman);
