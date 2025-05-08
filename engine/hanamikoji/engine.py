@@ -1,14 +1,12 @@
 import argparse
+import asyncio
 import os
 import json
+import websockets
 
 from hanamikoji.evaluation.deep_agent import DeepAgent
 from hanamikoji.evaluation.human import Human
 from hanamikoji.env.game import GameEnv, get_card_play_data
-
-AGENT_OUT_PATH = "agent_out.json"
-HUMAN_IN_PATH = "human_in.json"
-POLL_INTERVAL = 0.5  # seconds
 
 
 def parse_args():
@@ -18,25 +16,17 @@ def parse_args():
     return parser.parse_args()
 
 
-def clear_environment():
-    if os.path.exists(AGENT_OUT_PATH):
-        os.remove(AGENT_OUT_PATH)
-    if os.path.exists(HUMAN_IN_PATH):
-        os.remove(HUMAN_IN_PATH)
-
-
 def setup_environment(args):
     os.environ['KMP_DUPLICATE_LIB_OK'] = 'True'
     os.environ["CUDA_VISIBLE_DEVICES"] = args.gpu_device
-    clear_environment()
 
 
-def write_state(env):
-    with open(AGENT_OUT_PATH, 'w') as f:
-        d = {env.tick: env.to_dict()}
-        f.write(json.dumps(d))
+async def write_state(env, websocket):
+    d = {env.tick: env.to_dict()}
+    message = json.dumps(d)
+    print(f'Sending: {message}')
+    await websocket.send(message)
     env.tick += 1
-    print(f"State written.")
 
 
 def get_human_id(players):
@@ -61,63 +51,68 @@ def get_human(players):
 def tidy_up(env):
     env.reset()
     env.card_play_init(get_card_play_data())
-    clear_environment()
 
 
-def swap_players(env):
+def swap_players(env, websocket):
     players = env.players
     human_id = get_human_id(players)
     opp = get_opp(human_id)
     players[human_id] = players[opp]
-    players[opp] = Human(HUMAN_IN_PATH, POLL_INTERVAL)
+    players[opp] = Human(websocket)
     tidy_up(env)
 
 
-def reset_players(env):
+def reset_players(env, websocket):
     players = env.players
     human_id = get_human_id(players)
-    players[human_id] = Human(HUMAN_IN_PATH, POLL_INTERVAL)
+    players[human_id] = Human(websocket)
     tidy_up(env)
 
 
-def handle_interrupt(env):
+def handle_interrupt(env, websocket):
     human = get_human(env.players)
     if human is None:
         return
     if human.interrupt == "swap":
-        swap_players(env)
+        swap_players(env, websocket)
         return
     if human.interrupt == "reset":
-        reset_players(env)
+        reset_players(env, websocket)
         return
     return
 
 
-def main():
+async def play_game(websocket):
     args = parse_args()
     setup_environment(args)
 
-    players = {'first': Human(HUMAN_IN_PATH, POLL_INTERVAL), 'second': DeepAgent(args.ckpt_folder)}
+    players = {'first': Human(websocket), 'second': DeepAgent(args.ckpt_folder)}
     # players = {'first': DeepAgent(args.ckpt_folder), 'second': DeepAgent(args.ckpt_folder)}
     env = GameEnv(players)
     env.card_play_init(get_card_play_data())
     print("Agent backend started.")
 
     while True:
-        write_state(env)
-        env.step()
-        handle_interrupt(env)
+        await write_state(env, websocket)
+        await env.step()
+        handle_interrupt(env, websocket)
         if env.winner:
-            write_state(env)
+            await write_state(env, websocket)
             while env.winner is not None:
                 human = get_human(env.players)
                 if human is not None:
                     human.set_interrupt()
-                    handle_interrupt(env)
+                    handle_interrupt(env, websocket)
                 else:
                     tidy_up(env)
                     break
 
 
+async def main():
+    server = await websockets.serve(play_game, "localhost", 8764)
+    print("Engine WebSocket server running at ws://localhost:8764")
+    await server.wait_closed()
+
+
 if __name__ == '__main__':
-    main()
+    asyncio.run(main())

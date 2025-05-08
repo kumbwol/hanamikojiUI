@@ -1,7 +1,5 @@
 import json
-import os
 import random
-import time
 
 
 def parse_move(response):
@@ -14,31 +12,18 @@ def parse_move(response):
 
 
 class Human:
-    def __init__(self, human_in, poll_interval):
-        self.human_in = human_in
-        self.poll_interval = poll_interval
-        self.last_tick = -1
+    def __init__(self, websocket):
         self.interrupt = None
+        self.websocket = websocket
 
     def __str__(self):
         return "Human"
 
-    def parse_new_message(self):
-        response = None
-        if os.path.exists(self.human_in):
-            with open(self.human_in, 'r') as f:
-                try:
-                    response = json.load(f)  # Parse JSON to dict
-                except json.JSONDecodeError as e:
-                    print(f"Invalid JSON in {self.human_in}: {e}")
-        if response is not None:
-            tick = response.get('tick')
-            print(f'curr_tick={tick} last_tick={self.last_tick}')
-            if tick != self.last_tick and tick is not None:
-                self.last_tick = tick
-                return response
-        time.sleep(self.poll_interval)
-        return None
+    async def parse_new_message(self):
+        raw_message = await self.websocket.recv()
+        print(f"Received: {raw_message}")
+        response = json.loads(raw_message)
+        return response
 
     def _handle_response_for_interrupt(self, response):
         if response is not None:
@@ -51,9 +36,9 @@ class Human:
                 return
         return
 
-    def act(self, infoset):
+    async def act(self, infoset):
         while True:
-            response = self.parse_new_message()
+            response = await self.parse_new_message()
             self._handle_response_for_interrupt(response)
             if self.interrupt == "reset" or self.interrupt == "swap":
                 return random.choice(infoset[1].moves)

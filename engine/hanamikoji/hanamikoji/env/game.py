@@ -154,12 +154,12 @@ class GameEnv(object):
         moves = mg.gen_moves()
         return moves
 
-    def step(self):
+    async def step(self):
         curr = self.state.acting_player_id
         opp = self.get_opp()
         info = self.private_info_sets[curr]
         self.active_player_info_set = self.get_active_player_info_set()
-        move = self.players[curr].act(self.active_player_info_set)
+        move = await self.players[curr].act(self.active_player_info_set)
         assert move in self.active_player_info_set[1].moves
 
         draw_card = True
