@@ -32,8 +32,8 @@ export class Board extends Container {
             const tile = new Tile(i, data.markerPos[i]);
             tile.x = i * (tile.width + offsetTileX);
             this.addChild(tile);
-            this.createCards(i, tile.width, offsetTileX, data.activeCards.second[i]);
-            this.createTopPlayerCards(i, tile.width, offsetTileX, data.activeCards.first[i]);
+            this.createCards(i, tile.width, offsetTileX, data.isFirstHuman ? data.activeCards.first[i] : data.activeCards.second[i]);
+            this.createTopPlayerCards(i, tile.width, offsetTileX, data.isFirstHuman ? data.activeCards.second[i] : data.activeCards.first[i]);
         }
     }
 
