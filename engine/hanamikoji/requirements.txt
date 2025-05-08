@@ -3,3 +3,4 @@ GitPython
 gitdb2
 setuptools~=79.0.1
 numpy~=2.2.5
+websockets
