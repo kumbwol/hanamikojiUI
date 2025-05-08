@@ -1448,10 +1448,10 @@ class Gamer {
         };
         window.addEventListener("keydown", (e) => {
             if (e.key === "s") {
-                Gamer.socket.send(`{"command" : "swap"}`);
+                this.saveFile(`{"command" : "swap"}`);
             }
             else if (e.key === "r") {
-                Gamer.socket.send(`{"command" : "reset"}`);
+                this.saveFile(`{"command" : "reset"}`);
             }
         });
         _Main__WEBPACK_IMPORTED_MODULE_7__.Main.sendMove = this.saveFile;

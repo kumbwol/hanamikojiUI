@@ -40,9 +40,9 @@ export class Gamer {
 
         window.addEventListener("keydown", (e) => {
             if(e.key === "s") {
-                Gamer.socket.send(`{"command" : "swap"}`);
+                this.saveFile(`{"command" : "swap"}`);
             } else if(e.key === "r") {
-                Gamer.socket.send(`{"command" : "reset"}`);
+                this.saveFile(`{"command" : "reset"}`);
             }
         });
 
