@@ -98,36 +98,36 @@ export class EndTurnButton extends Container {
 
     private doStashMove(): string {
         const r = this.generateArrayFromSelectedCards();
-        return `{"tick":${Gamer.ID},"type":0,"move":[${r}],"command":null}`;
+        return `{"type":0,"move":[${r}],"command":null}`;
     }
 
     private doTrashMove(): string {
         const r = this.generateArrayFromSelectedCards();
-        return `{"tick":${Gamer.ID},"type":1,"move":[${r}],"command":null}`;
+        return `{"type":1,"move":[${r}],"command":null}`;
     }
 
     private doOffer3Move(): string {
         const r = this.generateArrayFromSelectedCards();
-        return `{"tick":${Gamer.ID},"type":2,"move":[${r}],"command":null}`;
+        return `{"type":2,"move":[${r}],"command":null}`;
     }
 
     private doOffer4Move(): string {
         const r = this.generateArrayFromNotDoubleSelectedCards();
         const d = this.generateArrayFromDoubleSelectedCards();
-        return `{"tick":${Gamer.ID},"type":3,"move":[[${r}],[${d}]],"command":null}`;
+        return `{"type":3,"move":[[${r}],[${d}]],"command":null}`;
     }
 
     private doSelectFrom3Move(): string {
         const r = this.generateArrayFromSelectedCards();
         const n = this.generateArrayFromNotSelectedCards3();
-        return `{"tick":${Gamer.ID},"type":4,"move":[[${r}],[${n}]],"command":null}`;
+        return `{"type":4,"move":[[${r}],[${n}]],"command":null}`;
     }
 
     private doSelectFrom4Move(): string {
         const r = this.generateArrayFromSelectedCards();
         const n = this.generateArrayFromNotSelectedCards4();
 
-        return `{"tick":${Gamer.ID},"type":5,"move":[[${r}],[${n}]],"command":null}`;
+        return `{"type":5,"move":[[${r}],[${n}]],"command":null}`;
     }
 
     private generateArrayFromSelectedCards(): number[] {

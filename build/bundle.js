@@ -386,8 +386,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _player_Player__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../player/Player */ "./game/src/components/player/Player.ts");
 /* harmony import */ var _player_MoveField__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../player/MoveField */ "./game/src/components/player/MoveField.ts");
 /* harmony import */ var _Main__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../../Main */ "./game/src/Main.ts");
-/* harmony import */ var _logic_Gamer__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../../logic/Gamer */ "./game/src/logic/Gamer.ts");
-
 
 
 
@@ -482,30 +480,30 @@ class EndTurnButton extends pixi_js__WEBPACK_IMPORTED_MODULE_0__.Container {
     }
     doStashMove() {
         const r = this.generateArrayFromSelectedCards();
-        return `{"tick":${_logic_Gamer__WEBPACK_IMPORTED_MODULE_6__.Gamer.ID},"type":0,"move":[${r}],"command":null}`;
+        return `{"type":0,"move":[${r}],"command":null}`;
     }
     doTrashMove() {
         const r = this.generateArrayFromSelectedCards();
-        return `{"tick":${_logic_Gamer__WEBPACK_IMPORTED_MODULE_6__.Gamer.ID},"type":1,"move":[${r}],"command":null}`;
+        return `{"type":1,"move":[${r}],"command":null}`;
     }
     doOffer3Move() {
         const r = this.generateArrayFromSelectedCards();
-        return `{"tick":${_logic_Gamer__WEBPACK_IMPORTED_MODULE_6__.Gamer.ID},"type":2,"move":[${r}],"command":null}`;
+        return `{"type":2,"move":[${r}],"command":null}`;
     }
     doOffer4Move() {
         const r = this.generateArrayFromNotDoubleSelectedCards();
         const d = this.generateArrayFromDoubleSelectedCards();
-        return `{"tick":${_logic_Gamer__WEBPACK_IMPORTED_MODULE_6__.Gamer.ID},"type":3,"move":[[${r}],[${d}]],"command":null}`;
+        return `{"type":3,"move":[[${r}],[${d}]],"command":null}`;
     }
     doSelectFrom3Move() {
         const r = this.generateArrayFromSelectedCards();
         const n = this.generateArrayFromNotSelectedCards3();
-        return `{"tick":${_logic_Gamer__WEBPACK_IMPORTED_MODULE_6__.Gamer.ID},"type":4,"move":[[${r}],[${n}]],"command":null}`;
+        return `{"type":4,"move":[[${r}],[${n}]],"command":null}`;
     }
     doSelectFrom4Move() {
         const r = this.generateArrayFromSelectedCards();
         const n = this.generateArrayFromNotSelectedCards4();
-        return `{"tick":${_logic_Gamer__WEBPACK_IMPORTED_MODULE_6__.Gamer.ID},"type":5,"move":[[${r}],[${n}]],"command":null}`;
+        return `{"type":5,"move":[[${r}],[${n}]],"command":null}`;
     }
     generateArrayFromSelectedCards() {
         const r = [];
@@ -1190,7 +1188,7 @@ __webpack_require__.r(__webpack_exports__);
 
 
 class Data {
-    constructor(stepId, loadedData) {
+    constructor(loadedData) {
         this.markerPos = [];
         this.offering4 = {
             first: [],
@@ -1198,7 +1196,7 @@ class Data {
         };
         this.isRoundEnd = false;
         console.log(loadedData);
-        let playedGame = loadedData[stepId];
+        let playedGame = loadedData;
         this.isRoundEnd = (playedGame.round_end_env !== null && !_Main__WEBPACK_IMPORTED_MODULE_1__.Main.ROUND_END_COFIRMED);
         playedGame = (this.isRoundEnd) ? playedGame.round_end_env : playedGame;
         if (playedGame.winner !== null) {
@@ -1430,7 +1428,6 @@ var __awaiter = (undefined && undefined.__awaiter) || function (thisArg, _argume
 
 class Gamer {
     constructor(stage) {
-        this.stepId = 1;
         this.isReadAllowed = true;
         Gamer.socket = new WebSocket("ws://localhost:8764");
         Gamer.socket.onopen = () => {
@@ -1438,9 +1435,8 @@ class Gamer {
         };
         Gamer.socket.onmessage = (event) => {
             this.loadedData = JSON.parse(event.data);
-            this.stepId = parseInt(Object.keys(this.loadedData)[0]);
-            const currData = (this.loadedData[this.stepId]);
-            if (this.loadedData[this.stepId].round_end_env !== null) {
+            const currData = (this.loadedData);
+            if (this.loadedData.round_end_env !== null) {
                 this.isReadAllowed = false;
                 this.createGameState(stage);
             }
@@ -1452,10 +1448,10 @@ class Gamer {
         };
         window.addEventListener("keydown", (e) => {
             if (e.key === "s") {
-                Gamer.socket.send(`{"tick" : ${Gamer.ID}, "command" : "swap"}`);
+                Gamer.socket.send(`{"command" : "swap"}`);
             }
             else if (e.key === "r") {
-                Gamer.socket.send(`{"tick" : ${Gamer.ID}, "command" : "reset"}`);
+                Gamer.socket.send(`{"command" : "reset"}`);
             }
         });
         _Main__WEBPACK_IMPORTED_MODULE_7__.Main.sendMove = this.saveFile;
@@ -1476,7 +1472,7 @@ class Gamer {
     }
     createGameState(stage) {
         this.reset(stage);
-        const data = new _data_Data__WEBPACK_IMPORTED_MODULE_0__.Data(this.stepId, this.loadedData);
+        const data = new _data_Data__WEBPACK_IMPORTED_MODULE_0__.Data(this.loadedData);
         this.maxId = data.maxId;
         stage.addChild(new _components_background_Background__WEBPACK_IMPORTED_MODULE_1__.Background());
         const topPlayer = new _components_player_Player__WEBPACK_IMPORTED_MODULE_2__.Player(stage, data.isFirstHuman, data.numOfCards.first, data.playerInformations.first, data.isRoundEnd);
@@ -1490,7 +1486,6 @@ class Gamer {
         }));
     }
 }
-Gamer.ID = Math.floor(Math.random() * 1000000);
 
 
 /***/ }),

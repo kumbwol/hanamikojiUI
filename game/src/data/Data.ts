@@ -15,9 +15,9 @@ export class Data {
     isFirstHuman: boolean;
     isRoundEnd = false;
 
-    constructor(stepId: number, loadedData: any) {
+    constructor(loadedData: any) {
         console.log(loadedData);
-        let playedGame = loadedData[stepId];
+        let playedGame = loadedData;
         this.isRoundEnd = (playedGame.round_end_env !== null && !Main.ROUND_END_COFIRMED);
         playedGame = (this.isRoundEnd) ? playedGame.round_end_env : playedGame;
         if(playedGame.winner !== null) {

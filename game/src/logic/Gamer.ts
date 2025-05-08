@@ -9,8 +9,6 @@ import {MoveType} from "../components/player/MoveField";
 import {Main} from "../Main";
 
 export class Gamer {
-    public static ID = Math.floor(Math.random() * 1000000);
-    private stepId = 1;
     private maxId: number;
     private loadedData: any;
     private static socket: WebSocket;
@@ -25,10 +23,9 @@ export class Gamer {
 
         Gamer.socket.onmessage = (event) => {
             this.loadedData = JSON.parse(event.data);
-            this.stepId = parseInt(Object.keys(this.loadedData)[0]);
-            const currData = (this.loadedData[this.stepId]);
+            const currData = (this.loadedData);
 
-            if(this.loadedData[this.stepId].round_end_env !== null) {
+            if(this.loadedData.round_end_env !== null) {
                 this.isReadAllowed = false;
                 this.createGameState(stage);
             }
@@ -43,9 +40,9 @@ export class Gamer {
 
         window.addEventListener("keydown", (e) => {
             if(e.key === "s") {
-                Gamer.socket.send(`{"tick" : ${Gamer.ID}, "command" : "swap"}`);
+                Gamer.socket.send(`{"command" : "swap"}`);
             } else if(e.key === "r") {
-                Gamer.socket.send(`{"tick" : ${Gamer.ID}, "command" : "reset"}`);
+                Gamer.socket.send(`{"command" : "reset"}`);
             }
         });
 
@@ -68,7 +65,7 @@ export class Gamer {
 
     private createGameState(stage: Container) {
         this.reset(stage);
-        const data = new Data(this.stepId, this.loadedData);
+        const data = new Data(this.loadedData);
         this.maxId = data.maxId;
         stage.addChild(new Background());
         const topPlayer = new Player(stage, data.isFirstHuman, data.numOfCards.first, data.playerInformations.first, data.isRoundEnd);
