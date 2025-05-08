@@ -7,6 +7,7 @@ import {MoveType} from "./components/player/MoveField";
 import {Player} from "./components/player/Player";
 
 export class Main {
+    public static ROUND_END_COFIRMED = false;
     public static STAGE: Container;
     public static sendMove: (filename: string, content: string) => {};
     private loader: GameLoader;

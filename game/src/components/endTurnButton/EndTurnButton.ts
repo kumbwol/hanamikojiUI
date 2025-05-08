@@ -7,7 +7,7 @@ import {Main} from "../../Main";
 import {Gamer} from "../../logic/Gamer";
 
 export class EndTurnButton extends Container {
-    constructor(stage: Container) {
+    constructor(stage: Container, isRoundEnd: boolean, reset: (stage) => void) {
         super();
         const endTurnOff = new Sprite(GameLoader.TEXTURES.get("endTurnOff"));
         endTurnOff.anchor.set(0.5);
@@ -17,8 +17,6 @@ export class EndTurnButton extends Container {
         this.addChild(endTurnOff);
         this.addChild(endTurnOn);
         this.position.set(1200, 360);
-
-        endTurnOn.visible = false;
 
         const style = new TextStyle({
             fontSize: 28,
@@ -33,32 +31,37 @@ export class EndTurnButton extends Container {
         endTurnText.eventMode = "none";
 
         endTurnOn.addEventListener("click", () => {
-            switch (MoveTiles.activeMoveID) {
-                case MoveType.STASH:
-                    Main.sendMove("human_in.json", this.doStashMove());
-                    break;
+            if(isRoundEnd) {
+                Main.ROUND_END_COFIRMED = true;
+                reset(stage);
+            } else {
+                switch (MoveTiles.activeMoveID) {
+                    case MoveType.STASH:
+                        Main.sendMove("human_in.json", this.doStashMove());
+                        break;
 
-                case MoveType.TRASH:
-                    Main.sendMove("human_in.json", this.doTrashMove());
-                    break;
+                    case MoveType.TRASH:
+                        Main.sendMove("human_in.json", this.doTrashMove());
+                        break;
 
-                case MoveType.OFFER_3:
-                    Main.sendMove("human_in.json", this.doOffer3Move());
-                    break;
+                    case MoveType.OFFER_3:
+                        Main.sendMove("human_in.json", this.doOffer3Move());
+                        break;
 
-                case MoveType.OFFER_4:
-                    Main.sendMove("human_in.json", this.doOffer4Move());
-                    break;
+                    case MoveType.OFFER_4:
+                        Main.sendMove("human_in.json", this.doOffer4Move());
+                        break;
 
-                case MoveType.SELECT_FROM_3:
-                    Main.sendMove("human_in.json", this.doSelectFrom3Move());
-                    break;
+                    case MoveType.SELECT_FROM_3:
+                        Main.sendMove("human_in.json", this.doSelectFrom3Move());
+                        break;
 
-                case MoveType.SELECT_FROM_4:
-                    Main.sendMove("human_in.json", this.doSelectFrom4Move());
-                    break;
+                    case MoveType.SELECT_FROM_4:
+                        Main.sendMove("human_in.json", this.doSelectFrom4Move());
+                        break;
+                }
             }
-            endTurnOn.interactive = false;
+            this.deActivate(endTurnOff, endTurnOn);
         });
 
         stage.addEventListener("change", () => {
@@ -84,6 +87,12 @@ export class EndTurnButton extends Container {
                 this.deActivate(endTurnOff, endTurnOn);
             }
         });
+
+        if(isRoundEnd) {
+            this.activate(endTurnOff, endTurnOn);
+        } else {
+            this.deActivate(endTurnOff, endTurnOn);
+        }
     }
 
     private doStashMove(): string {

@@ -1,4 +1,5 @@
 import {MarkerPosition} from "../components/tile/Tile";
+import {Main} from "../Main";
 
 export class Data {
     markerPos: MarkerPosition[] = [];
@@ -12,13 +13,14 @@ export class Data {
         second: []
     };
     isFirstHuman: boolean;
+    isRoundEnd = false;
 
     constructor(stepId: number, loadedData: any) {
-        //loadedData = this.extendDataWithRoundEndSteps(loadedData);
-        const playedGame = loadedData[stepId];
-        this.maxId = Object.values(loadedData).length;
         console.log(loadedData);
-        console.log(loadedData[stepId]);
+        let playedGame = loadedData[stepId];
+        this.isRoundEnd = (playedGame.round_end_env !== null && !Main.ROUND_END_COFIRMED);
+        playedGame = (this.isRoundEnd) ? playedGame.round_end_env : playedGame;
+        this.maxId = Object.values(loadedData).length;
         this.isFirstHuman = playedGame.players.first === "Human";
 
         this.parseMarkers(playedGame.state.geisha_preferences);
@@ -33,6 +35,7 @@ export class Data {
         this.playerInformations.second.possibleMoves = playedGame.state.action_cards.second;
         this.playerInformations.first.isActive = playedGame.state.acting_player_id === "first";
         this.playerInformations.second.isActive = playedGame.state.acting_player_id === "second";
+        Main.ROUND_END_COFIRMED = false;
     }
 
     private extendDataWithRoundEndSteps(loadedData: any): any {
@@ -105,8 +108,6 @@ export class Data {
     }
 
     private parseMarkers(geishaPreferences: GeishaPreferences) {
-        console.log("!!!!", this.isFirstHuman);
-
         for(let i=0; i<7; i++) {
             this.markerPos.push(MarkerPosition.MID);
         }

@@ -86,6 +86,7 @@ class Main {
         });
     }
 }
+Main.ROUND_END_COFIRMED = false;
 new Main();
 
 
@@ -424,7 +425,7 @@ __webpack_require__.r(__webpack_exports__);
 
 
 class EndTurnButton extends pixi_js__WEBPACK_IMPORTED_MODULE_0__.Container {
-    constructor(stage) {
+    constructor(stage, isRoundEnd, reset) {
         super();
         const endTurnOff = new pixi_js__WEBPACK_IMPORTED_MODULE_0__.Sprite(_loader_GameLoader__WEBPACK_IMPORTED_MODULE_1__.GameLoader.TEXTURES.get("endTurnOff"));
         endTurnOff.anchor.set(0.5);
@@ -433,7 +434,6 @@ class EndTurnButton extends pixi_js__WEBPACK_IMPORTED_MODULE_0__.Container {
         this.addChild(endTurnOff);
         this.addChild(endTurnOn);
         this.position.set(1200, 360);
-        endTurnOn.visible = false;
         const style = new pixi_js__WEBPACK_IMPORTED_MODULE_0__.TextStyle({
             fontSize: 28,
             align: "center",
@@ -446,27 +446,33 @@ class EndTurnButton extends pixi_js__WEBPACK_IMPORTED_MODULE_0__.Container {
         endTurnText.interactive = false;
         endTurnText.eventMode = "none";
         endTurnOn.addEventListener("click", () => {
-            switch (_player_MoveTiles__WEBPACK_IMPORTED_MODULE_2__.MoveTiles.activeMoveID) {
-                case _player_MoveField__WEBPACK_IMPORTED_MODULE_4__.MoveType.STASH:
-                    _Main__WEBPACK_IMPORTED_MODULE_5__.Main.sendMove("human_in.json", this.doStashMove());
-                    break;
-                case _player_MoveField__WEBPACK_IMPORTED_MODULE_4__.MoveType.TRASH:
-                    _Main__WEBPACK_IMPORTED_MODULE_5__.Main.sendMove("human_in.json", this.doTrashMove());
-                    break;
-                case _player_MoveField__WEBPACK_IMPORTED_MODULE_4__.MoveType.OFFER_3:
-                    _Main__WEBPACK_IMPORTED_MODULE_5__.Main.sendMove("human_in.json", this.doOffer3Move());
-                    break;
-                case _player_MoveField__WEBPACK_IMPORTED_MODULE_4__.MoveType.OFFER_4:
-                    _Main__WEBPACK_IMPORTED_MODULE_5__.Main.sendMove("human_in.json", this.doOffer4Move());
-                    break;
-                case _player_MoveField__WEBPACK_IMPORTED_MODULE_4__.MoveType.SELECT_FROM_3:
-                    _Main__WEBPACK_IMPORTED_MODULE_5__.Main.sendMove("human_in.json", this.doSelectFrom3Move());
-                    break;
-                case _player_MoveField__WEBPACK_IMPORTED_MODULE_4__.MoveType.SELECT_FROM_4:
-                    _Main__WEBPACK_IMPORTED_MODULE_5__.Main.sendMove("human_in.json", this.doSelectFrom4Move());
-                    break;
+            if (isRoundEnd) {
+                _Main__WEBPACK_IMPORTED_MODULE_5__.Main.ROUND_END_COFIRMED = true;
+                reset(stage);
             }
-            endTurnOn.interactive = false;
+            else {
+                switch (_player_MoveTiles__WEBPACK_IMPORTED_MODULE_2__.MoveTiles.activeMoveID) {
+                    case _player_MoveField__WEBPACK_IMPORTED_MODULE_4__.MoveType.STASH:
+                        _Main__WEBPACK_IMPORTED_MODULE_5__.Main.sendMove("human_in.json", this.doStashMove());
+                        break;
+                    case _player_MoveField__WEBPACK_IMPORTED_MODULE_4__.MoveType.TRASH:
+                        _Main__WEBPACK_IMPORTED_MODULE_5__.Main.sendMove("human_in.json", this.doTrashMove());
+                        break;
+                    case _player_MoveField__WEBPACK_IMPORTED_MODULE_4__.MoveType.OFFER_3:
+                        _Main__WEBPACK_IMPORTED_MODULE_5__.Main.sendMove("human_in.json", this.doOffer3Move());
+                        break;
+                    case _player_MoveField__WEBPACK_IMPORTED_MODULE_4__.MoveType.OFFER_4:
+                        _Main__WEBPACK_IMPORTED_MODULE_5__.Main.sendMove("human_in.json", this.doOffer4Move());
+                        break;
+                    case _player_MoveField__WEBPACK_IMPORTED_MODULE_4__.MoveType.SELECT_FROM_3:
+                        _Main__WEBPACK_IMPORTED_MODULE_5__.Main.sendMove("human_in.json", this.doSelectFrom3Move());
+                        break;
+                    case _player_MoveField__WEBPACK_IMPORTED_MODULE_4__.MoveType.SELECT_FROM_4:
+                        _Main__WEBPACK_IMPORTED_MODULE_5__.Main.sendMove("human_in.json", this.doSelectFrom4Move());
+                        break;
+                }
+            }
+            this.deActivate(endTurnOff, endTurnOn);
         });
         stage.addEventListener("change", () => {
             let isActive = false;
@@ -496,6 +502,12 @@ class EndTurnButton extends pixi_js__WEBPACK_IMPORTED_MODULE_0__.Container {
                 this.deActivate(endTurnOff, endTurnOn);
             }
         });
+        if (isRoundEnd) {
+            this.activate(endTurnOff, endTurnOn);
+        }
+        else {
+            this.deActivate(endTurnOff, endTurnOn);
+        }
     }
     doStashMove() {
         const r = this.generateArrayFromSelectedCards();
@@ -1203,6 +1215,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   Data: () => (/* binding */ Data)
 /* harmony export */ });
 /* harmony import */ var _components_tile_Tile__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../components/tile/Tile */ "./game/src/components/tile/Tile.ts");
+/* harmony import */ var _Main__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../Main */ "./game/src/Main.ts");
+
 
 class Data {
     constructor(stepId, loadedData) {
@@ -1211,11 +1225,12 @@ class Data {
             first: [],
             second: []
         };
-        //loadedData = this.extendDataWithRoundEndSteps(loadedData);
-        const playedGame = loadedData[stepId];
-        this.maxId = Object.values(loadedData).length;
+        this.isRoundEnd = false;
         console.log(loadedData);
-        console.log(loadedData[stepId]);
+        let playedGame = loadedData[stepId];
+        this.isRoundEnd = (playedGame.round_end_env !== null && !_Main__WEBPACK_IMPORTED_MODULE_1__.Main.ROUND_END_COFIRMED);
+        playedGame = (this.isRoundEnd) ? playedGame.round_end_env : playedGame;
+        this.maxId = Object.values(loadedData).length;
         this.isFirstHuman = playedGame.players.first === "Human";
         this.parseMarkers(playedGame.state.geisha_preferences);
         this.parseActiveCards(playedGame.state.gift_cards);
@@ -1228,6 +1243,7 @@ class Data {
         this.playerInformations.second.possibleMoves = playedGame.state.action_cards.second;
         this.playerInformations.first.isActive = playedGame.state.acting_player_id === "first";
         this.playerInformations.second.isActive = playedGame.state.acting_player_id === "second";
+        _Main__WEBPACK_IMPORTED_MODULE_1__.Main.ROUND_END_COFIRMED = false;
     }
     extendDataWithRoundEndSteps(loadedData) {
         const r = {};
@@ -1292,7 +1308,6 @@ class Data {
         this.activeCards = activeCards;
     }
     parseMarkers(geishaPreferences) {
-        console.log("!!!!", this.isFirstHuman);
         for (let i = 0; i < 7; i++) {
             this.markerPos.push(_components_tile_Tile__WEBPACK_IMPORTED_MODULE_0__.MarkerPosition.MID);
         }
@@ -1467,7 +1482,7 @@ class Gamer {
         stage.addChild(topPlayer);
         stage.addChild(botPlayer);
         stage.addChild(new _components_board_Board__WEBPACK_IMPORTED_MODULE_3__.Board(data));
-        stage.addChild(new _components_endTurnButton_EndTurnButton__WEBPACK_IMPORTED_MODULE_4__.EndTurnButton(stage));
+        stage.addChild(new _components_endTurnButton_EndTurnButton__WEBPACK_IMPORTED_MODULE_4__.EndTurnButton(stage, data.isRoundEnd, () => this.createGameState(stage)));
     }
 }
 Gamer.ID = Math.floor(Math.random() * 1000000);

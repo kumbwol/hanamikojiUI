@@ -46,6 +46,6 @@ export class Gamer {
         stage.addChild(topPlayer);
         stage.addChild(botPlayer);
         stage.addChild(new Board(data));
-        stage.addChild(new EndTurnButton(stage));
+        stage.addChild(new EndTurnButton(stage, data.isRoundEnd, () => this.createGameState(stage)));
     }
 }
