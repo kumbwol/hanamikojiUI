@@ -77,7 +77,6 @@ class GameEnv(object):
         self.num_wins = {'first': 0, 'second': 0}
         self.round = 1
         self.round_end_env = None
-        self.tick = 1
 
         # Public game info
         self.state = GameState()
@@ -240,7 +239,6 @@ class GameEnv(object):
         self.state = GameState()
         self.private_info_sets = {'first': PrivateInfoSet(), 'second': PrivateInfoSet()}
         self.active_player_info_set = None
-        self.tick = 1
 
     def to_dict(self):
         return deepcopy({

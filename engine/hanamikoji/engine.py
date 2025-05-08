@@ -22,11 +22,10 @@ def setup_environment(args):
 
 
 async def write_state(env, websocket):
-    d = {env.tick: env.to_dict()}
+    d = env.to_dict()
     message = json.dumps(d)
     print(f'Sending: {message}')
     await websocket.send(message)
-    env.tick += 1
 
 
 def get_human_id(players):
