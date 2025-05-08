@@ -8,7 +8,7 @@ def parse_move(response):
     if move_type == 3:
         if move[1] > move[0]:
             move[0], move[1] = move[1], move[0]
-    return [move_type, move], response.get("tick")
+    return [move_type, move]
 
 
 class Human:
@@ -42,7 +42,7 @@ class Human:
         if self.interrupt == "reset" or self.interrupt == "swap":
             return random.choice(infoset[1].moves)
         else:
-            move, tick = parse_move(response)
+            move = parse_move(response)
             assert move in infoset[1].moves
             return move
 
