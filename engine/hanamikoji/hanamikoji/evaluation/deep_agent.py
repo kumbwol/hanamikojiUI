@@ -31,7 +31,7 @@ class DeepAgent:
     def __str__(self):
         return "DeepAgent"
 
-    def act(self, infoset):
+    async def act(self, infoset):
         if len(infoset[1].moves) == 1:
             return infoset[1].moves[0]
 
