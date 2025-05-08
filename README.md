@@ -31,7 +31,6 @@ cd ./hanamikojiUI
 
 # 3. Set up the frontend
 npm ci
-npm run dev # After "webpack compiled successfully", press Ctrl + C to stop the dev server
 
 # 4. Set up the Python backend
 python3 -m venv ./engine/hanamikoji/venv

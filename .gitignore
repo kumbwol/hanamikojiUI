@@ -14,7 +14,6 @@ typings/**/*
 node_modules/
 coverage/
 .DS_Store
-build/
 *.ckpt
 **/venv/**
 **/.idea/**
