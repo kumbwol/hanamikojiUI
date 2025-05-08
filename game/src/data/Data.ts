@@ -105,18 +105,20 @@ export class Data {
     }
 
     private parseMarkers(geishaPreferences: GeishaPreferences) {
+        console.log("!!!!", this.isFirstHuman);
+
         for(let i=0; i<7; i++) {
             this.markerPos.push(MarkerPosition.MID);
         }
 
         for(let i=0; i<geishaPreferences.first.length; i++){
-            if(geishaPreferences.first[i] === 1) {
+            if(this.isFirstHuman ? geishaPreferences.second[i] : geishaPreferences.first[i] === 1) {
                 this.markerPos[i] = MarkerPosition.TOP;
             }
         }
 
         for(let i=0; i<geishaPreferences.second.length; i++){
-            if(geishaPreferences.second[i] === 1) {
+            if(this.isFirstHuman ? geishaPreferences.first[i] : geishaPreferences.second[i] === 1) {
                 this.markerPos[i] = MarkerPosition.BOT;
             }
         }
