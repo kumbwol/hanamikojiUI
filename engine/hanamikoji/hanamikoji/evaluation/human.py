@@ -37,17 +37,14 @@ class Human:
         return
 
     async def act(self, infoset):
-        while True:
-            response = await self.parse_new_message()
-            self._handle_response_for_interrupt(response)
-            if self.interrupt == "reset" or self.interrupt == "swap":
-                return random.choice(infoset[1].moves)
-            else:
-                if response is not None:
-                    move, tick = parse_move(response)
-                    if move is not None and tick is not None:
-                        assert move in infoset[1].moves
-                        return move
+        response = await self.parse_new_message()
+        self._handle_response_for_interrupt(response)
+        if self.interrupt == "reset" or self.interrupt == "swap":
+            return random.choice(infoset[1].moves)
+        else:
+            move, tick = parse_move(response)
+            assert move in infoset[1].moves
+            return move
 
     async def set_interrupt(self):
         response = await self.parse_new_message()
