@@ -101,7 +101,7 @@ async def play_game(websocket):
             while env.winner is not None:
                 human = get_human(env.players)
                 if human is not None:
-                    human.set_interrupt()
+                    await human.set_interrupt()
                     handle_interrupt(env, websocket)
                 else:
                     tidy_up(env)

@@ -49,6 +49,6 @@ class Human:
                         assert move in infoset[1].moves
                         return move
 
-    def set_interrupt(self):
-        response = self.parse_new_message()
+    async def set_interrupt(self):
+        response = await self.parse_new_message()
         self._handle_response_for_interrupt(response)
