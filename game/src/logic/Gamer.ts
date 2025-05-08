@@ -14,6 +14,7 @@ export class Gamer {
     private maxId: number;
     private loadedData: any;
     private static socket: WebSocket;
+    private isReadAllowed = true;
 
     constructor(stage: Container) {
         Gamer.socket = new WebSocket("ws://localhost:8764");
@@ -25,7 +26,19 @@ export class Gamer {
         Gamer.socket.onmessage = (event) => {
             this.loadedData = JSON.parse(event.data);
             this.stepId = parseInt(Object.keys(this.loadedData)[0]);
-            this.createGameState(stage);
+            const currData = (this.loadedData[this.stepId]);
+
+            if(this.loadedData[this.stepId].round_end_env !== null) {
+                this.isReadAllowed = false;
+                this.createGameState(stage);
+            }
+
+            if((((currData.players.first === "Human" && currData.state.acting_player_id === "first") ||
+                (currData.players.second === "Human" && currData.state.acting_player_id === "second")) &&
+                this.isReadAllowed) || currData.winner !== null
+            ) {
+                this.createGameState(stage);
+            }
         };
 
         window.addEventListener("keydown", (e) => {
@@ -45,7 +58,6 @@ export class Gamer {
         Player.offeringCards3 = [];
         Player.offeringCards4 = [];
         Player.doubleSelectedCards = [];
-        //console.log(JSON.parse(content))
         Gamer.socket.send(content);
     }
 
@@ -64,6 +76,9 @@ export class Gamer {
         stage.addChild(topPlayer);
         stage.addChild(botPlayer);
         stage.addChild(new Board(data));
-        stage.addChild(new EndTurnButton(stage, data.isRoundEnd, () => this.createGameState(stage)));
+        stage.addChild(new EndTurnButton(stage, data.isRoundEnd, () => {
+            this.isReadAllowed = true;
+            this.createGameState(stage);
+        }));
     }
 }

@@ -1431,6 +1431,7 @@ var __awaiter = (undefined && undefined.__awaiter) || function (thisArg, _argume
 class Gamer {
     constructor(stage) {
         this.stepId = 1;
+        this.isReadAllowed = true;
         Gamer.socket = new WebSocket("ws://localhost:8764");
         Gamer.socket.onopen = () => {
             console.log("Connected to WebSocket server");
@@ -1438,7 +1439,16 @@ class Gamer {
         Gamer.socket.onmessage = (event) => {
             this.loadedData = JSON.parse(event.data);
             this.stepId = parseInt(Object.keys(this.loadedData)[0]);
-            this.createGameState(stage);
+            const currData = (this.loadedData[this.stepId]);
+            if (this.loadedData[this.stepId].round_end_env !== null) {
+                this.isReadAllowed = false;
+                this.createGameState(stage);
+            }
+            if ((((currData.players.first === "Human" && currData.state.acting_player_id === "first") ||
+                (currData.players.second === "Human" && currData.state.acting_player_id === "second")) &&
+                this.isReadAllowed) || currData.winner !== null) {
+                this.createGameState(stage);
+            }
         };
         window.addEventListener("keydown", (e) => {
             if (e.key === "s") {
@@ -1457,7 +1467,6 @@ class Gamer {
             _components_player_Player__WEBPACK_IMPORTED_MODULE_2__.Player.offeringCards3 = [];
             _components_player_Player__WEBPACK_IMPORTED_MODULE_2__.Player.offeringCards4 = [];
             _components_player_Player__WEBPACK_IMPORTED_MODULE_2__.Player.doubleSelectedCards = [];
-            //console.log(JSON.parse(content))
             Gamer.socket.send(content);
         });
     }
@@ -1475,7 +1484,10 @@ class Gamer {
         stage.addChild(topPlayer);
         stage.addChild(botPlayer);
         stage.addChild(new _components_board_Board__WEBPACK_IMPORTED_MODULE_3__.Board(data));
-        stage.addChild(new _components_endTurnButton_EndTurnButton__WEBPACK_IMPORTED_MODULE_4__.EndTurnButton(stage, data.isRoundEnd, () => this.createGameState(stage)));
+        stage.addChild(new _components_endTurnButton_EndTurnButton__WEBPACK_IMPORTED_MODULE_4__.EndTurnButton(stage, data.isRoundEnd, () => {
+            this.isReadAllowed = true;
+            this.createGameState(stage);
+        }));
     }
 }
 Gamer.ID = Math.floor(Math.random() * 1000000);
